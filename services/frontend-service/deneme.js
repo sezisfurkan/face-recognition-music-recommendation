@@ -1,1 +1,0 @@
-mahmut furkan
