@@ -8,7 +8,7 @@ public class FrmrApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FrmrApplication.class, args);
-		System.out.println("Test for commit........");
+		System.out.println("Test for commit.....");
 	}
 
 }
