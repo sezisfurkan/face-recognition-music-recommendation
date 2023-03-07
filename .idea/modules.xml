@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/face-recognition-music-recommendation.iml" filepath="$PROJECT_DIR$/.idea/face-recognition-music-recommendation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/backend-service/frmr.iml" filepath="$PROJECT_DIR$/services/backend-service/frmr.iml" />
     </modules>
   </component>
 </project>
