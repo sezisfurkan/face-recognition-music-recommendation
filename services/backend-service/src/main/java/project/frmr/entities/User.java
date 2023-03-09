@@ -25,40 +25,8 @@ public class User {
 
     String email;
 
-
-
-
 }
 
 
 
 
-/*@Entity
-@Table(name ="user")
-@Data
-public class User {
-    @Id
-    @GeneratedValue
-    Long id;
-
-    @NotNull
-    @Size(min=4, max=255)
-    @UniqueUsername
-    @JsonView(Views.Base.class)
-    String userName;
-
-    @NotNull
-    @Size(min=4, max=255)
-    @JsonView(Views.Base.class)
-    String displayName;
-
-    @NotNull
-//    @Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
-    @Size(min=8, max=255)
-    @JsonView(Views.Sensitive.class)
-    String password;
-
-    @JsonView(Views.Base.class)
-    private String image;
-
-}*/
