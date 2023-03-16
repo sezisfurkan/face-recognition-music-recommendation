@@ -1,9 +1,6 @@
 package project.frmr.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 
@@ -12,17 +9,18 @@ import lombok.Data;
 @Data
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long Id;
 
+    @Column(name = "name")
     String name;
-
+    @Column(name = "surName")
     String surName;
-
+    @Column(name = "userName")
     String userName;
-
+    @Column(name = "password")
     String password;
-
+    @Column(name = "email")
     String email;
 
 }
