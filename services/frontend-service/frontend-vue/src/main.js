@@ -9,11 +9,13 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
 import Button from "primevue/button";
+import MenuBar from "primevue/menubar";
 
 const app = createApp(App);
 
 app.use(PrimeVue);
 app.use(router);
 app.component("Button", Button);
+app.component("Menubar", MenuBar);
 
 app.mount("#app");
