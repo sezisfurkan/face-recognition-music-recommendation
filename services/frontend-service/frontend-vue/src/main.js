@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-
+import router from "./routers/router";
 import App from "./App.vue";
 import PrimeVue from "primevue/config";
 
@@ -11,5 +11,6 @@ import "primeflex/primeflex.css";
 const app = createApp(App);
 
 app.use(PrimeVue);
+app.use(router);
 
 app.mount("#app");
