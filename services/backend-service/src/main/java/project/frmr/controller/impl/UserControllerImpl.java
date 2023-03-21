@@ -1,40 +1,71 @@
 package project.frmr.controller.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import project.frmr.controller.UserController;
 import project.frmr.dto.UserDTO;
+import project.frmr.entity.User;
+import project.frmr.mapper.UserMapper;
+import project.frmr.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserControllerImpl implements UserController {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserMapper userMapper;
+
     @Override
-    public UserDTO save(UserDTO user) {
-        return null;
+    @PostMapping("/user")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDTO save(@RequestBody UserDTO userDTO) {
+
+        User user = userMapper.asEntity(userDTO);
+        return userMapper.asDTO(userService.save(user));
     }
 
     @Override
-    public UserDTO findById(String id) {
-        return null;
+    @GetMapping("/user/{id}")
+    public UserDTO findById(@PathVariable("id") String id) {
+
+        User user = userService.findById(id).orElse(null);
+        return userMapper.asDTO(user);
     }
 
     @Override
-    public void delete(String id) {
-
+    @DeleteMapping("/user/{id}")
+    public void delete(@PathVariable("id") String id) {
+        userService.deleteById(id);
     }
 
     @Override
+    @GetMapping("/user")
     public List<UserDTO> list() {
-        return null;
+        return userMapper.asDTOList(userService.findAll());
     }
 
     @Override
+    @GetMapping("/page-query")
     public Page<UserDTO> pageQuery(Pageable pageable) {
-        return null;
+        Page<User> userPage = userService.findAll(pageable);
+        List<UserDTO> dtoList = userPage
+                .stream()
+                .map(userMapper::asDTO).collect(Collectors.toList());
+        return new PageImpl<>(dtoList, pageable, userPage.getTotalElements());
     }
 
     @Override
-    public UserDTO update(UserDTO dto, String id) {
-        return null;
+    @PutMapping("/user/{id}")
+    public UserDTO update(@RequestBody UserDTO userDTO, @PathVariable("id") String id) {
+        User user = userMapper.asEntity(userDTO);
+        return userMapper.asDTO(userService.update(user, id));
     }
 }
