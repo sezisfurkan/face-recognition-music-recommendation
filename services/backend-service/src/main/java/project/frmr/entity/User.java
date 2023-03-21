@@ -1,6 +1,7 @@
 package project.frmr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,13 +9,16 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Where;
 import project.frmr.models.ModifiableEntity;
 
+/*
 import javax.persistence.*;
+*/
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "SYS_USER")
+
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Where(clause = "is_deleted = false")
 public class User extends ModifiableEntity  {
