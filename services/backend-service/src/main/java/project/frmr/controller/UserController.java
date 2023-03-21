@@ -1,15 +1,24 @@
 package project.frmr.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import project.frmr.dto.UserDTO;
 import io.swagger.annotations.ApiOperation;
+import project.frmr.mapper.UserMapper;
+import project.frmr.service.UserService;
 
 import java.util.List;
 
+
 public interface UserController {
+
+
+
     @ApiOperation("Add new data")
     public UserDTO save(@RequestBody UserDTO user);
 

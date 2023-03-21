@@ -28,9 +28,9 @@ public class User extends ModifiableEntity  {
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @Column(nullable = true)
+  /*  @Column(nullable = true)
     private byte[] picture;
-
+*/
     @Column(nullable = true, length = 100)
     private String name;
 

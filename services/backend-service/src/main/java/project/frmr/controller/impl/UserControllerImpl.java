@@ -1,6 +1,7 @@
 package project.frmr.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,10 @@ import project.frmr.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+
+@RestController
+
 public class UserControllerImpl implements UserController {
 
     @Autowired
@@ -23,8 +28,11 @@ public class UserControllerImpl implements UserController {
     @Autowired
     UserMapper userMapper;
 
+
+
+
     @Override
-    @PostMapping("/user")
+    @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO save(@RequestBody UserDTO userDTO) {
 
