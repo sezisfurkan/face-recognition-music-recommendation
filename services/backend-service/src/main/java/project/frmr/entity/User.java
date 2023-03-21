@@ -2,6 +2,7 @@ package project.frmr.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "SYS_USER")
-
+@Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Where(clause = "is_deleted = false")
 public class User extends ModifiableEntity  {
@@ -42,9 +43,9 @@ public class User extends ModifiableEntity  {
 
     @Column(nullable = false, length = 100)
     private String username;
-
-    @JsonIgnore
-    @Column(nullable = false, length = 1000)
+/*
+    @JsonIgnore*/
+    @Column()
     private String password;
 
     @Column(nullable = false, length = 100)

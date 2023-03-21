@@ -1,8 +1,12 @@
 package project.frmr.dto;
 
+
+import lombok.Data;
+
+@Data
 public class UserDTO {
     private String id;
-    private byte[] picture;
+  /*  private byte[] picture;*/
     private String name;
     private String fname;
     private String sname;

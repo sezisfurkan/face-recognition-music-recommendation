@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.frmr.entity.User;
+import project.frmr.mapper.UserMapper;
 import project.frmr.repository.UserRepository;
 import project.frmr.service.UserService;
 
@@ -16,8 +18,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
 public class UserServiceImpl implements UserService {
+    PasswordEncoder passwordEncoder;
+    private UserMapper userMapper;
+
+
+    @Autowired
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+
 
     @Autowired
     private UserRepository userRepository;
@@ -33,9 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User entity) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = entity.getPassword();
-        entity.setPassword(encoder.encode(password));
+        entity.setPassword(encoder.encode(password));*/
+        passwordEncoder= new BCryptPasswordEncoder();
+        String encryptedPassword = this.passwordEncoder.encode(entity.getPassword());
+        entity.setPassword(encryptedPassword);
         return userRepository.save(entity);
     }
 

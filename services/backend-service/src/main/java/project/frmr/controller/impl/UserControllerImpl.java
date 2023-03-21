@@ -19,17 +19,16 @@ import java.util.stream.Collectors;
 
 
 @RestController
-
 public class UserControllerImpl implements UserController {
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    UserMapper userMapper;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
 
-
+    public UserControllerImpl(UserService userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
 
     @Override
     @PostMapping("/users")
