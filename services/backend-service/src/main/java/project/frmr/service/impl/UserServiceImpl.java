@@ -1,5 +1,6 @@
 package project.frmr.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import project.frmr.entity.User;
 import project.frmr.mapper.UserMapper;
 import project.frmr.repository.UserRepository;
+import project.frmr.rules.UserBusinessRules;
 import project.frmr.service.UserService;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,9 +20,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
+    private UserBusinessRules userBusinessRules;
 
 
     @Autowired
@@ -32,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    // şuraya private BCryptPasswordEncoder encoder gibi bi şey eklenebilir mi
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -44,6 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User entity) {
+        userBusinessRules.checkIfEmailExists(entity.getEmail());
         /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = entity.getPassword();
         entity.setPassword(encoder.encode(password));*/
