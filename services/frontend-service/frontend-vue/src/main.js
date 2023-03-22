@@ -10,6 +10,8 @@ import "primeflex/primeflex.css";
 
 import Button from "primevue/button";
 import MenuBar from "primevue/menubar";
+import InputText from "primevue/inputtext";
+import Password from "primevue/password";
 
 const app = createApp(App);
 
@@ -17,5 +19,7 @@ app.use(PrimeVue);
 app.use(router);
 app.component("Button", Button);
 app.component("Menubar", MenuBar);
+app.component("InputText", InputText);
+app.component("Password", Password);
 
 app.mount("#app");

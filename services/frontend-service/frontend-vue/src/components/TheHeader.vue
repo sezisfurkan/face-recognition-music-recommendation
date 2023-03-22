@@ -22,9 +22,14 @@ export default {
           to: "/",
         },
         {
-          label: "Profie",
+          label: "Profile",
           icon: "pi pi-user",
-          to: "/Profile",
+          to: "/profile",
+        },
+        {
+          label: "Auth",
+          icon: "pi pi-sign-in",
+          to: "/auth",
         },
       ];
 
