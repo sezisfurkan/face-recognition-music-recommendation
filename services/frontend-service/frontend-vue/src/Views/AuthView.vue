@@ -7,7 +7,7 @@
         <InputText
           id="username"
           v-model="username"
-          placeholder="Kullanıcı adınızı girin"
+          placeholder="Enter Your Username"
         />
       </div>
       <div class="p-field">
@@ -15,7 +15,7 @@
         <Password
           id="password"
           v-model="password"
-          placeholder="Şifrenizi girin"
+          placeholder="Enter Your Password"
         />
       </div>
       <div class="pt-3 pl-2">
