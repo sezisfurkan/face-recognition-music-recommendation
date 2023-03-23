@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+/*@AllArgsConstructor*/
 public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
