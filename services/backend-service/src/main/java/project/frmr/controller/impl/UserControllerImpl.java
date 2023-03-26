@@ -1,5 +1,6 @@
 package project.frmr.controller.impl;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,7 +29,7 @@ public class UserControllerImpl implements UserController {
     @Override
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO save(@RequestBody UserDTO userDTO) {
+    public UserDTO save(@Valid @RequestBody UserDTO userDTO) {
 
         User user = userMapper.asEntity(userDTO);
         return userMapper.asDTO(userService.save(user));
