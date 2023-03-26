@@ -32,6 +32,9 @@ public class AppConfig {
             @Override
             public UserDTO asDTO(User entity) {
                 return null;
+
+
+
             }
 
             @Override
