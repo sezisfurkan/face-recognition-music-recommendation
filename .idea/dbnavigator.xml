@@ -5,6 +5,12 @@
     <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
+  <component name="DBNavigator.Project.DatabaseBrowserManager">
+    <autoscroll-to-editor value="false" />
+    <autoscroll-from-editor value="true" />
+    <show-object-properties value="true" />
+    <loaded-nodes />
+  </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="dac11a00-3033-483f-bde2-c736ae2d8e6d">
       <console name="Connection" type="STANDARD" schema="postgres" session="Main" />
@@ -28,7 +34,7 @@
           <description value="" />
           <database-type value="POSTGRES" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="14.6" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />

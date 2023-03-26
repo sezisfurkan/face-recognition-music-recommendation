@@ -11,6 +11,7 @@ import project.frmr.entity.User;
 import project.frmr.mapper.UserMapper;
 import project.frmr.repository.UserRepository;
 import project.frmr.rules.UserBusinessRules;
+import project.frmr.service.EmailSenderService;
 import project.frmr.service.UserService;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
     private UserBusinessRules userBusinessRules;
+
+    private EmailSenderService emailSenderService;
 
 
     @Autowired
@@ -55,7 +58,16 @@ public class UserServiceImpl implements UserService {
         passwordEncoder= new BCryptPasswordEncoder();
         String encryptedPassword = this.passwordEncoder.encode(entity.getPassword());
         entity.setPassword(encryptedPassword);
+
+        sendEmail(entity);
+
         return userRepository.save(entity);
+    }
+
+    public void sendEmail(User entity) {
+        emailSenderService.sendEmail(entity.getEmail(),
+                                     entity.getUsername() + " sign up successfully to FRMR system.",
+                                     "Confirmation Mail");
     }
 
     @Override
