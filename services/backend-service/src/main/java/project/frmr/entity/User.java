@@ -21,7 +21,7 @@ import javax.persistence.*;
 @Table(name = "SYS_USER")
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Where(clause = "is_deleted = false")
+/*@Where(clause = "is_deleted = false")*/
 public class User extends ModifiableEntity  {
 
     @Id
