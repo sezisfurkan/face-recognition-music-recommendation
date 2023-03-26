@@ -25,9 +25,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
-    private UserBusinessRules userBusinessRules;
+  /*  private UserBusinessRules userBusinessRules;
 
-    private EmailSenderService emailSenderService;
+    private EmailSenderService emailSenderService;*/
 
 
     @Autowired
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User entity) {
-        userBusinessRules.checkIfEmailExists(entity.getEmail());
+      /*  userBusinessRules.checkIfEmailExists(entity.getEmail());*/
         /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = entity.getPassword();
         entity.setPassword(encoder.encode(password));*/
@@ -59,16 +59,18 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = this.passwordEncoder.encode(entity.getPassword());
         entity.setPassword(encryptedPassword);
 
-        sendEmail(entity);
+       /* sendEmail(entity);*/
 
         return userRepository.save(entity);
     }
 
+/*
     public void sendEmail(User entity) {
         emailSenderService.sendEmail(entity.getEmail(),
                                      entity.getUsername() + " sign up successfully to FRMR system.",
                                      "Confirmation Mail");
     }
+*/
 
     @Override
     public List<User> save(List<User> entities) {

@@ -15,6 +15,8 @@ import project.frmr.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@RestController
 public class UserControllerImpl implements UserController {
 
     @Autowired
