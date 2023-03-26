@@ -6,10 +6,13 @@ import project.frmr.exceptions.BusinessException;
 import project.frmr.repository.UserRepository;
 
 @Service
-@AllArgsConstructor
 public class UserBusinessRules {
 
     private UserRepository userRepository;
+
+    public UserBusinessRules(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public void checkIfEmailExists(String email) {
         if(userRepository.existsByEmail(email)) {

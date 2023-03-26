@@ -26,13 +26,10 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
 
-
-
-   /* @Autowired
+    @Autowired
     private UserBusinessRules userBusinessRules;
-
-    private EmailSenderService emailSenderService;*/
-
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -40,22 +37,27 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Autowired
     private UserRepository userRepository;
-    // şuraya private BCryptPasswordEncoder encoder gibi bi şey eklenebilir mi
+
+    public UserServiceImpl(UserRepository userRepository,
+                           UserBusinessRules userBusinessRules,
+                           EmailSenderService emailSenderService) {
+
+        this.userRepository = userRepository;
+        this.userBusinessRules = userBusinessRules;
+        this.emailSenderService = emailSenderService;
+    }
+
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public User save(User entity) {
-       /* userBusinessRules.checkIfEmailExists(entity.getEmail());*/
+        userBusinessRules.checkIfEmailExists(entity.getEmail());
         /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = entity.getPassword();
         entity.setPassword(encoder.encode(password));*/
@@ -63,16 +65,16 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = this.passwordEncoder.encode(entity.getPassword());
         entity.setPassword(encryptedPassword);
 
-       /* sendEmail(entity);*/
+        sendEmail(entity);
 
         return userRepository.save(entity);
     }
 
- /*   public void sendEmail(User entity) {
+    public void sendEmail(User entity) {
         emailSenderService.sendEmail(entity.getEmail(),
                                      entity.getUsername() + " sign up successfully to FRMR system.",
                                      "Confirmation Mail");
-    }*/
+    }
 
     @Override
     public List<User> save(List<User> entities) {
