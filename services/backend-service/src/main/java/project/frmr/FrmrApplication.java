@@ -3,12 +3,14 @@ package project.frmr;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.RestTemplate;
 import project.frmr.exceptions.BusinessException;
 import project.frmr.exceptions.ProblemDetails;
 import project.frmr.exceptions.ValidationProblemDetails;
@@ -45,6 +47,11 @@ public class FrmrApplication {
 		}
 
 		return validationProblemDetails;
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 
