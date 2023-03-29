@@ -7,6 +7,7 @@ import project.frmr.entity.User;
 import project.frmr.repository.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Configuration
@@ -31,20 +32,29 @@ public class AppConfig {
 
             @Override
             public UserDTO asDTO(User entity) {
-                return null;
-
-
-
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(entity.getId());
+                userDTO.setPassword(entity.getPassword());
+                userDTO.setName(entity.getName());
+                userDTO.setFname(entity.getFname());
+                userDTO.setSname(entity.getSname());
+                userDTO.setUsername(entity.getUsername());
+                userDTO.setEmail(entity.getEmail());
+                return userDTO;
             }
 
             @Override
             public List<User> asEntityList(List<UserDTO> dtoList) {
-                return null;
+                return dtoList.stream()
+                        .map(this::asEntity)
+                        .collect(Collectors.toList());
             }
 
             @Override
             public List<UserDTO> asDTOList(List<User> entityList) {
-                return null;
+                return entityList.stream()
+                        .map(this::asDTO)
+                        .collect(Collectors.toList());
             }
         };
     }
