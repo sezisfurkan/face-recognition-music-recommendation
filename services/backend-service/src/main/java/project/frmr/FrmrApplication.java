@@ -1,5 +1,6 @@
 package project.frmr;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -15,6 +16,7 @@ import project.frmr.exceptions.BusinessException;
 import project.frmr.exceptions.ProblemDetails;
 import project.frmr.exceptions.ValidationProblemDetails;
 
+
 import java.util.HashMap;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
@@ -25,7 +27,6 @@ public class FrmrApplication {
 		SpringApplication.run(FrmrApplication.class, args);
 		System.out.println("Test for commit!!");
 	}
-
 
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
@@ -51,6 +52,7 @@ public class FrmrApplication {
 
 	@Bean
 	public RestTemplate restTemplate() {
+
 		return new RestTemplate();
 	}
 

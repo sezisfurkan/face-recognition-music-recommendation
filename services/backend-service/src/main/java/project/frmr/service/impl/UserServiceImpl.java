@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User entity) {
-        userBusinessRules.checkIfEmailExists(entity.getEmail());
+        userBusinessRules.checkIfUserExists(entity.getEmail(), entity.getUsername());
         /*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = entity.getPassword();
         entity.setPassword(encoder.encode(password));*/

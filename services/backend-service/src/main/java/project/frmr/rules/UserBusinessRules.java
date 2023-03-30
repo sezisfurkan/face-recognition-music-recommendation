@@ -14,9 +14,13 @@ public class UserBusinessRules {
         this.userRepository = userRepository;
     }
 
-    public void checkIfEmailExists(String email) {
-        if(userRepository.existsByEmail(email)) {
-            throw new BusinessException("Email already exists. Please try to sign in with different email address");
+    public void checkIfUserExists(String email, String username) {
+        if(userRepository.existsByEmail(email) && userRepository.existsByUsername(username)) {
+            throw new BusinessException("A user with the same email and username already exists. Please try to sign up with different email address and username.");
+        } else if (userRepository.existsByEmail(email)) {
+            throw new BusinessException("A user with the same email already exists. Please try to sign up with different email address.");
+        } else if (userRepository.existsByUsername(username)) {
+            throw new BusinessException("A user with the same username already exists. Please try to sign up with different username.");
         }
     }
 
