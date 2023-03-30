@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@RequestMapping(value = "/api/v1")
 public class UserControllerImpl implements UserController {
 
     @Autowired
