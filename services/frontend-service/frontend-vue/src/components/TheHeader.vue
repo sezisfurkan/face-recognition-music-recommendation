@@ -31,6 +31,11 @@ export default {
           icon: "pi pi-sign-in",
           to: "/auth",
         },
+        {
+          label: "Register",
+          icon: "pi pi-sign-up",
+          to: "/register",
+        },
       ];
 
       return items;

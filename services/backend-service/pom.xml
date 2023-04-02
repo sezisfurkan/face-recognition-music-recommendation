@@ -100,6 +100,11 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>3.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

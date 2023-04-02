@@ -30,51 +30,52 @@
 import { reactive } from 'vue';
 import {UserListDTO} from "../dtos/UserListDTO.js";
 import axios from 'axios';
+import {useUserStore} from "../stores/UserStore.js";
 
 
 export default {
-  setup() {
-    let userData = {};
-    const URL = 'http://localhost:8080/api/v1';
-    this.userListDTO = new UserListDTO();
-    const form = reactive({
-      firstname: '',
-      surname: '',
-      username: '',
-      password:'',
-      email: '',
-    });
-
-    function handleSubmit() {
-        userData = {
-        firstname: form.fname,
-        surname: form.surname,
-        username: form.username,
-        password: form.password,
-        email: form.email,
+  data() {
+    return {
+      form: {
+        firstname: '',
+        surname: '',
+        username: '',
+        password: '',
+        email: '',
+      },
+      userStore: useUserStore(),
+      URL: 'http://localhost:8090/api/v1/user',
+      userListDTO: new UserListDTO(),
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      const userData = {
+        firstname: this.form.firstname,
+        surname: this.form.surname,
+        username: this.form.username,
+        password: this.form.password,
+        email: this.form.email,
       };
 
-      // userData DTO olarak gönderilebilir
-      console.log(userData);
-      saveUser(userData);
-    }
-    async function saveUser(userData){
       this.userListDTO.username = userData.username;
       this.userListDTO.fname = userData.firstname;
       this.userListDTO.sname = userData.surname;
       this.userListDTO.email = userData.email;
       this.userListDTO.password = userData.password;
+      this.userListDTO.name = userData.firstname + " " + userData.surname;
 
       try {
-        const response = await axios.post(URL + '/user', this.userListDTO);
+        const response = await axios.post(`${this.URL}`, this.userListDTO);
         console.log(response.data);
+        this.userStore.userId = this.userListDTO.id;
+        this.$router.push('/profile');
       } catch (error) {
         console.error(error);
       }
 
-    }
-
-    return { form, handleSubmit };
+    },
   },
+
 };
 </script>
