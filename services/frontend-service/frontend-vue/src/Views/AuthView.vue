@@ -1,56 +1,42 @@
 <template>
-  <div class="login-container p-d-flex p-jc-center p-ai-center p-flex-column">
-    <h2 class="p-text-center">User Login</h2>
-    <div class="login-form p-d-flex p-flex-column">
-      <div class="p-field mb-2">
-        <label for="username" class="p-d-block font-bold">username: </label>
-        <InputText
-          id="username"
-          v-model="username"
-          placeholder="Enter Your Username"
-        />
-      </div>
-      <div class="p-field">
-        <label for="password" class="p-d-block font-bold pr-1">Password:</label>
-        <Password
-          id="password"
-          v-model="password"
-          placeholder="Enter Your Password"
-        />
-      </div>
-      <div class="pt-3 pl-2">
-        <Button label="Login" @click="submitForm"></Button>
-      </div>
-    </div>
-  </div>
+  <form @submit.prevent="login">
+    <label>
+      Kullanıcı Adı:
+      <input type="text" v-model="username">
+    </label>
+    <label>
+      Parola:
+      <input type="password" v-model="password">
+    </label>
+    <button type="submit">Giriş Yap</button>
+  </form>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
       username: "",
       password: "",
+      URL: 'http://localhost:8090/api/v1/user/login',
     };
+
   },
   methods: {
-    submitForm() {
-      console.log(`Kullanıcı Adı: ${this.username}, Şifre: ${this.password}`);
+    async login() {
+      try {
+        const response = await axios.post(`${this.URL}`, {
+          username: this.username,
+          password: this.password
+        });
+        localStorage.setItem("token", response.data.token); // cevap olarak aldığınız kimlik belirteci local storage'e kaydedin
+        // Başarılı giriş durumunu burada yönetin
+      } catch (error) {
+        console.error(error);
+        // Başarısız giriş durumunu burada yönetin
+      }
     },
   },
 };
 </script>
-
-<style scoped>
-.login-container {
-  height: 100vh;
-  width: 100%;
-}
-
-.login-form {
-  max-width: 400px;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-}
-</style>

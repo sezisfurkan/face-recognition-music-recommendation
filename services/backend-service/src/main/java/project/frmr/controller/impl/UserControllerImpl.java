@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.frmr.controller.UserController;
 import project.frmr.dto.UserDTO;
@@ -13,6 +14,7 @@ import project.frmr.entity.User;
 import project.frmr.mapper.UserMapper;
 import project.frmr.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,11 @@ public class UserControllerImpl implements UserController {
 
         User user = userMapper.asEntity(userDTO);
         return userMapper.asDTO(userService.save(user));
+    }
+
+    @PostMapping("/user/login")
+    public ResponseEntity<?> login(HttpSession session) {
+        return new ResponseEntity<String>(session.getId(), null, HttpStatus.OK);
     }
 
     @Override
