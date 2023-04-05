@@ -55,20 +55,11 @@ public class AuthController {
             ApiError error = new ApiError(401,"Unauthorized request","/auth");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
-  /*      // username, displayName , image
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("username",inDB.getUserName());
-        responseBody.put("displayName",inDB.getDisplayName());
-        responseBody.put("image",inDB.getImage());
-*/
+
         return ResponseEntity.ok(inDB);
     }
 
-/*    @ExceptionHandler(BadCredentialsException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    ApiError handleBadCredentialsException{
 
-    }*/
 }
 
 
