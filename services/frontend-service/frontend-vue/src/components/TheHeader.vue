@@ -4,11 +4,17 @@
       <h1 class="text-green-600 text-2xl font-normal m-0 p-0">
         Vue Js Music recommendation App
       </h1>
+<!--      <head>
+        <meta charSet="UTF-8">
+        <title>My YouTube Player</title>
+        <script src="https://www.youtube.com/player_api"></script>
+      </head>-->
     </template>
+
   </Menubar>
 </template>
 
-<script>
+<script >
 export default {
   data() {
     return {};
@@ -43,5 +49,6 @@ export default {
   },
 };
 </script>
+
 
 <style scoped></style>
