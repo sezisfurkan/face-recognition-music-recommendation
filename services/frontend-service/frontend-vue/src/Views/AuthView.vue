@@ -30,8 +30,10 @@ export default {
           username: this.username,
           password: this.password
         });
-        localStorage.setItem("token", response.data.token); // cevap olarak aldığınız kimlik belirteci local storage'e kaydedin
-        // Başarılı giriş durumunu burada yönetin
+        localStorage.setItem("token", response.data.token); // cevap olarak aldığınız kimlik belirteci local storage'e kaydedi
+        setTimeout(() => {
+          this.$router.push('/profile')
+        }, 1000)
       } catch (error) {
         console.error(error);
         // Başarısız giriş durumunu burada yönetin
