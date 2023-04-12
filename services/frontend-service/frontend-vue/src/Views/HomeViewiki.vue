@@ -55,30 +55,67 @@ export default {
     onPlayerReady(event) {
       event.target.playVideo();
     },
-    playVideo(videoId) {
-      // Seçilen duyguya göre videoyu oynat
+    playVideo(videoId, audioOnly) {
+      // Seçilen duyguya göre videoyu/sesi oynat
       this.selectedEmotion = this.emotions.find(e => e.videoId === videoId);
 
       // Oynatıcıyı güncelle
       if (this.player) {
-        this.player.loadVideoById(this.selectedEmotion.videoId);
+        if (audioOnly) {
+          this.player.loadVideoById({
+            videoId: this.selectedEmotion.videoId,
+            suggestedQuality: "small",
+            playerVars: {
+              autoplay: 1,
+              controls: 1,
+              iv_load_policy: 3,
+              loop: 1,
+              start: 0,
+              end: 1,
+              fs: 0, // tam ekran butonunu kaldır
+              playsinline: 1 // iPhone ve iPad için gereklidir
+            }
+          });
+        } else {
+          this.player.loadVideoById(this.selectedEmotion.videoId);
+        }
       } else {
-// İlk kez bir video seçiliyorsa, oynatıcıyı ol
-
-        this.player = new window.YT.Player("player", {
-          videoId: this.selectedEmotion.videoId,
-          playerVars: {
-            autoplay: 1,
-            controls: 1
-          },
-          events: {
-            onReady: this.onPlayerReady
-          }
-        });
+        if (audioOnly) {
+          this.player = new window.YT.Player("player", {
+            videoId: this.selectedEmotion.videoId,
+            suggestedQuality: "small",
+            playerVars: {
+              autoplay: 1,
+              controls: 1,
+              iv_load_policy: 3,
+              loop: 1,
+              start: 0,
+              end: 1,
+              fs: 0, // tam ekran butonunu kaldır
+              playsinline: 1 // iPhone ve iPad için gereklidir
+            },
+            events: {
+              onReady: this.onPlayerReady
+            }
+          });
+        } else {
+          this.player = new window.YT.Player("player", {
+            videoId: this.selectedEmotion.videoId,
+            playerVars: {
+              autoplay: 1,
+              controls: 1
+            },
+            events: {
+              onReady: this.onPlayerReady
+            }
+          });
+        }
       }
     }, stopVideo() {
       if (this.player) {
-        this.player.stopVideo();
+        if (confirm("Videoyu durdurmak istediğinize emin misiniz?")) {
+          this.player.stopVideo();
+        }
       }
     }
   }
