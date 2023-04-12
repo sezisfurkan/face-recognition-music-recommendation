@@ -1,7 +1,17 @@
 
-<!--<template>
+<template>
   <div>
     <div id="player"></div>
+    <div>
+      <h2>How do you feel today?</h2>
+      <button @click="playVideo('Rv7WZ92eXqQ')">Anger</button>
+      <button @click="playVideo('boUKG5R5ED0')">Disgust</button>
+      <button @click="playVideo('CHelYRZaieA')">Fear</button>
+      <button @click="playVideo('qzk-u7GrBKg')">Happiness</button>
+      <button @click="playVideo('8-N3G0pPU64')">Sadness</button>
+      <button @click="playVideo('FfqJHU-1Jrc')">Surprise</button>
+      <button @click="stopVideo">Durdur</button>
+    </div>
   </div>
 </template>
 
@@ -9,7 +19,15 @@
 export default {
   data() {
     return {
-      videoId: "PQK5Tnxi1LU",
+      emotions: [
+        { name: "Anger", videoId: "Rv7WZ92eXqQ" },
+        { name: "Disgust", videoId: "boUKG5R5ED0" },
+        { name: "Fear", videoId: "CHelYRZaieA" },
+        { name: "Happiness", videoId: "qzk-u7GrBKg" },
+        { name: "Sadness", videoId: "8-N3G0pPU64" },
+        { name: "Surprise", videoId: "FfqJHU-1Jrc" }
+      ],
+      selectedEmotion: null,
       player: null
     };
   },
@@ -17,58 +35,7 @@ export default {
     // Youtube API'i yukle
     window.onYouTubeIframeAPIReady = () => {
       this.player = new window.YT.Player("player", {
-        videoId: this.videoId,
-        playerVars: {
-          autoplay: 1,
-          controls: 1
-        },
-        events: {
-          onReady: this.onPlayerReady
-        }
-      });
-    };
-
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName("script")[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  },
-  methods: {
-    onPlayerReady(event) {
-      event.target.playVideo();
-    }
-  }
-};
-</script>-->
-<template>
-  <div>
-    <div id="player"></div>
-    <select v-model="selectedOption" @change="onOptionSelected">
-      <option value="">Select your mode</option>
-      <option value="option1">Anger</option>
-      <option value="option2">Disgust</option>
-      <option value="option3">Fear</option>
-      <option value="option4">Happiness</option>
-      <option value="option5">Sadness</option>
-      <option value="option6">Surprise</option>
-    </select>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      videoId: "RrxXfB5NzDE",
-      player: null,
-      selectedOption: ""
-    };
-  },
-  mounted() {
-    // Youtube API'i yukle
-    window.onYouTubeIframeAPIReady = () => {
-      this.player = new window.YT.Player("player", {
-        videoId: this.videoId,
+        videoId: this.selectedEmotion.videoId,
         playerVars: {
           autoplay: 1,
           controls: 1
@@ -88,27 +55,38 @@ export default {
     onPlayerReady(event) {
       event.target.playVideo();
     },
-    onOptionSelected() {
-      const videoIdMap = {
-        option1: "Rv7WZ92eXqQ",
-        option2: "boUKG5R5ED0",
-        option3: "CHelYRZaieA",
-        option4: "qzk-u7GrBKg",
-        option5: "8-N3G0pPU64",
-        option6: "FfqJHU-1Jrc"
-      };
+    playVideo(videoId) {
+      // Seçilen duyguya göre videoyu oynat
+      this.selectedEmotion = this.emotions.find(e => e.videoId === videoId);
 
-      // Seçilen seçenek için uygun video ID'sini alın
-      const selectedVideoId = videoIdMap[this.selectedOption];
+      // Oynatıcıyı güncelle
+      if (this.player) {
+        this.player.loadVideoById(this.selectedEmotion.videoId);
+      } else {
+// İlk kez bir video seçiliyorsa, oynatıcıyı ol
 
-      // Video ID'si değiştirilirse, oynatıcıyı güncelleyin
-      if (this.player && selectedVideoId !== this.videoId) {
-        this.videoId = selectedVideoId;
-        this.player.loadVideoById(selectedVideoId);
+        this.player = new window.YT.Player("player", {
+          videoId: this.selectedEmotion.videoId,
+          playerVars: {
+            autoplay: 1,
+            controls: 1
+          },
+          events: {
+            onReady: this.onPlayerReady
+          }
+        });
+      }
+    }, stopVideo() {
+      if (this.player) {
+        this.player.stopVideo();
       }
     }
   }
 };
 </script>
 
-
+<style>
+button {
+  margin-right: 10px;
+}
+</style>
