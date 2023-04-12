@@ -27,7 +27,7 @@ const routes = [
     component: RegisterView,
   },
   {
-    path: "/homeview",
+    path: "/homeview2",
     name: "home2",
     component: HomeViewiki,
 

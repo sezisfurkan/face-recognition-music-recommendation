@@ -28,6 +28,11 @@ export default {
           to: "/",
         },
         {
+          label: "Video",
+          icon: "pi pi-youtube",
+          to: "/homeview2",
+        },
+        {
           label: "Profile",
           icon: "pi pi-user",
           to: "/profile",
