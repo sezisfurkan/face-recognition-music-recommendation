@@ -10,7 +10,7 @@
       <button @click="playVideo('qzk-u7GrBKg')">Happiness</button>
       <button @click="playVideo('8-N3G0pPU64')">Sadness</button>
       <button @click="playVideo('FfqJHU-1Jrc')">Surprise</button>
-      <button @click="stopVideo">Durdur</button>
+      <button @click="stopVideo">Stop</button>
     </div>
   </div>
 </template>
