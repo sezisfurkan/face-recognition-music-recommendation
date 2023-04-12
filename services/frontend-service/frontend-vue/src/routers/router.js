@@ -28,7 +28,7 @@ const routes = [
   },
   {
     path: "/homeview",
-    name: "home",
+    name: "home2",
     component: HomeViewiki,
 
   },
