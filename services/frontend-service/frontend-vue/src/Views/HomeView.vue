@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Kamera Aç/Kapat</h1>
+    <h1 style="color: #fff;">Kamera Aç/Kapat</h1>
     <button @click="openCamera">Kamera Aç</button>
     <button @click="closeCamera">Kamera Kapat</button>
     <video ref="videoElement" autoplay></video>
@@ -28,4 +28,6 @@ export default {
   }
 }
 </script>
-<style></style>
+<style>
+
+</style>

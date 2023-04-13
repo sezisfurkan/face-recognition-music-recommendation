@@ -86,7 +86,33 @@ export default {
 </script>
 
 <style>
-button {
-  margin-right: 10px;
+#player {
+  margin: 0 auto;
+  display: block;
+  width: 560px;
+  height: 315px;
+}
+
+div > h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+div > button {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #007bff;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+}
+
+div > button:hover {
+  background-color: #0069d9;
 }
 </style>
