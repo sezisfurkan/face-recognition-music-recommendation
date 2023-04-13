@@ -14,6 +14,8 @@
     </div>
   </div>
 </template>
+<!--0kr_0RC78Ko-->
+<!--<button @click="playVideo('Rv7WZ92eXqQ')">Anger</button>-->
 
 <script>
 export default {
