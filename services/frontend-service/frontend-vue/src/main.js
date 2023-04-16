@@ -25,3 +25,4 @@ app.component("InputText", InputText);
 app.component("Password", Password);
 
 app.mount("#app");
+

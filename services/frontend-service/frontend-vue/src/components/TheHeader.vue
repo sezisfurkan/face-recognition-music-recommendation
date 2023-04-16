@@ -1,58 +1,59 @@
 <template>
-    <Menubar :model="menuItems">
-        <template #end>
-            <h1 class="text-green-600 text-2xl font-normal m-0 p-0">
-                Vue Js Music recommendation App
-            </h1>
-        </template>
-    </Menubar>
+  <Menubar :model="menuItems">
+    <template #end>
+      <h1 class="text-green-600 text-2xl font-normal m-0 p-0">
+        Vue Js Music recommendation App
+      </h1>
+<!--      <head>
+        <meta charSet="UTF-8">
+        <title>My YouTube Player</title>
+        <script src="https://www.youtube.com/player_api"></script>
+      </head>-->
+    </template>
+
+  </Menubar>
 </template>
 
-<script>
-import { useUserStore } from "../stores/UserStore.js";
-
+<script >
 export default {
-    data() {
-        return {
-            userStore: useUserStore(),
-        };
-    },
-    computed: {
-
-        isUserLoggedIn() {
-            return this.userStore.userId !== "";
+  data() {
+    return {};
+  },
+  computed: {
+    menuItems() {
+      const items = [
+        {
+          label: "Home",
+          icon: "pi pi-home",
+          to: "/",
         },
-        menuItems() {
-            const baseItems = [
-                {
-                    label: "Home",
-                    icon: "pi pi-home",
-                    to: "/",
-                },
-                {
-                    label: this.isUserLoggedIn ? this.userStore.userName : "Profile",
-                    icon: "pi pi-user",
-                    to: "/profile",
-                },
-            ];
-
-            const authItems = [
-                {
-                    label: "Auth",
-                    icon: "pi pi-sign-in",
-                    to: "/auth",
-                },
-                {
-                    label: "Register",
-                    icon: "pi pi-sign-in",
-                    to: "/register",
-                },
-            ];
+        {
+          label: "Video",
+          icon: "pi pi-youtube",
+          to: "/homeview2",
+        },
+        {
+          label: "Profile",
+          icon: "pi pi-user",
+          to: "/profile",
+        },
+        {
+          label: "Auth",
+          icon: "pi pi-sign-in",
+          to: "/auth",
+        },
+        {
+          label: "Register",
+          icon: "pi pi-sign-up",
+          to: "/register",
+        },
+      ];
 
             return this.isUserLoggedIn ? baseItems : [...baseItems, ...authItems];
         },
     },
 };
 </script>
+
 
 <style scoped></style>

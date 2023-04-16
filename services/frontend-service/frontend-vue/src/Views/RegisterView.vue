@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit">
+  <form class="form-container" @submit.prevent="handleSubmit">
     <div>
       <label>Name:</label>
       <input v-model="form.firstname" type="text" required />
@@ -85,3 +85,66 @@ export default {
 
 };
 </script>
+<style>
+/* Body styles */
+body {
+  background-color: #333;
+}
+
+/* Form container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem;
+  background-color: #222;
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+/* Form label styles */
+.form-container label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Form input styles */
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container input[type="email"] {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #444;
+  color: #fff;
+}
+
+/* Form input focus styles */
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus,
+.form-container input[type="email"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #007bff;
+}
+
+/* Form submit button styles */
+.form-container button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+/* Form submit button hover styles */
+.form-container button[type="submit"]:hover {
+  background-color: #0069d9;
+}
+</style>
