@@ -33,8 +33,8 @@
   </style>-->
 
 <template>
-  <div>
-    <h1 style="color: #fff;">Kamera Aç/Kapat</h1>
+  <div class="menubar">
+    <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
     <button @click="openCamera">Kamera Aç</button>
     <button @click="closeCamera">Kamera Kapat</button>
     <video ref="videoElement" autoplay></video>
@@ -91,9 +91,13 @@ export default {
     }
   }
 };
-//
+
 </script>
 
-<style>
-
+<style scoped>
+.menubar {
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
 </style>
