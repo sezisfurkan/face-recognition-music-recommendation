@@ -1,46 +1,57 @@
 <template>
-  <Menubar :model="menuItems">
-    <template #end>
-      <h1 class="text-green-600 text-2xl font-normal m-0 p-0">
-        Vue Js Music recommendation App
-      </h1>
-    </template>
-  </Menubar>
+    <Menubar :model="menuItems">
+        <template #end>
+            <h1 class="text-green-600 text-2xl font-normal m-0 p-0">
+                Vue Js Music recommendation App
+            </h1>
+        </template>
+    </Menubar>
 </template>
 
 <script>
-export default {
-  data() {
-    return {};
-  },
-  computed: {
-    menuItems() {
-      const items = [
-        {
-          label: "Home",
-          icon: "pi pi-home",
-          to: "/",
-        },
-        {
-          label: "Profile",
-          icon: "pi pi-user",
-          to: "/profile",
-        },
-        {
-          label: "Auth",
-          icon: "pi pi-sign-in",
-          to: "/auth",
-        },
-        {
-          label: "Register",
-          icon: "pi pi-sign-up",
-          to: "/register",
-        },
-      ];
+import { useUserStore } from "../stores/UserStore.js";
 
-      return items;
+export default {
+    data() {
+        return {
+            userStore: useUserStore(),
+        };
     },
-  },
+    computed: {
+
+        isUserLoggedIn() {
+            return this.userStore.userId !== "";
+        },
+        menuItems() {
+            const baseItems = [
+                {
+                    label: "Home",
+                    icon: "pi pi-home",
+                    to: "/",
+                },
+                {
+                    label: this.isUserLoggedIn ? this.userStore.userName : "Profile",
+                    icon: "pi pi-user",
+                    to: "/profile",
+                },
+            ];
+
+            const authItems = [
+                {
+                    label: "Auth",
+                    icon: "pi pi-sign-in",
+                    to: "/auth",
+                },
+                {
+                    label: "Register",
+                    icon: "pi pi-sign-in",
+                    to: "/register",
+                },
+            ];
+
+            return this.isUserLoggedIn ? baseItems : [...baseItems, ...authItems];
+        },
+    },
 };
 </script>
 
