@@ -31,8 +31,9 @@ public class Song extends ModifiableEntity {
     @Column(nullable = false, length = 100)
     private String genre;
 
-    @Column(nullable = false, length = 100)
-    private String emotionId;
+    @ManyToOne
+    @JoinColumn(name = "emotion_id")
+    private Emotion emotion;
 
     @Column(nullable = false, length = 100)
     private String apiKey;
