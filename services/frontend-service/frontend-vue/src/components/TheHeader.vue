@@ -34,6 +34,11 @@ export default {
                     icon: "pi pi-user",
                     to: "/profile",
                 },
+              {
+                label: "Video",
+                icon: "pi pi-youtube",
+                to: "/homeview2",
+              },
             ];
 
             const authItems = [
