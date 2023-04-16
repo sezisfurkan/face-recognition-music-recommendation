@@ -30,7 +30,7 @@ export default {
                     to: "/",
                 },
                 {
-                    label: "Profile",
+                    label: this.isUserLoggedIn ? this.userStore.userName : "Profile",
                     icon: "pi pi-user",
                     to: "/profile",
                 },
