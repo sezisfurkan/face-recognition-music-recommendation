@@ -68,7 +68,13 @@ export default {
       try {
         const response = await axios.post(`${this.URL}`, this.userListDTO);
         console.log(response.data);
-        this.userStore.userId = this.userListDTO.id;
+          this.userListDTO.id = response.data.id;
+          this.userListDTO.name = response.data.name;
+
+          this.userStore.userId = this.userListDTO.id;
+          this.userStore.userName = this.userListDTO.username;
+
+        console.log(this.userStore.userId)
         this.$router.push('/profile');
       } catch (error) {
         console.error(error);

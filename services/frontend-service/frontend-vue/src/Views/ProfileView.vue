@@ -1,5 +1,5 @@
 <template>
-  <h1>{{this.userStore.userId}}</h1>
+  <h1>{{this.userStore.userName}}</h1>
 </template>
 
 <script>

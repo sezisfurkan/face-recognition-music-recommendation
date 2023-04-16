@@ -49,9 +49,9 @@ export default {
         },
       ];
 
-      return items;
+            return this.isUserLoggedIn ? baseItems : [...baseItems, ...authItems];
+        },
     },
-  },
 };
 </script>
 
