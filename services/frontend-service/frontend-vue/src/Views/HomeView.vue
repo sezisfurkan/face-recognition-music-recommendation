@@ -79,12 +79,17 @@ export default {
         const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
         const formData = new FormData();
         formData.append('image', blob, 'image.jpg');
-        const response = await fetch('http://127.0.0.1:5000/detect', {
-          method: 'POST',
-          body: formData
-        });
-        const data = await response.json();
-        this.$refs.videoElement.src = `data:image/jpeg;base64,${data.content}`;
+          const response = await fetch('http://127.0.0.1:5000/detect', {
+              method: 'POST',
+              mode: 'no-cors',
+              body: formData
+          });
+          const data = await response.blob(); // .json() yerine .blob() kullanın
+          const reader = new FileReader();
+          reader.onloadend = () => {
+              this.$refs.videoElement.src = reader.result;
+          };
+          reader.readAsDataURL(data);
       } catch (error) {
         console.error(error);
       }
