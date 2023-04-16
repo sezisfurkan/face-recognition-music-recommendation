@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import project.frmr.dto.LoginDTO;
 import project.frmr.dto.UserDTO;
 import io.swagger.annotations.ApiOperation;
 import project.frmr.mapper.UserMapper;
@@ -25,7 +26,7 @@ public interface UserController {
     public UserDTO save(@RequestBody UserDTO user);
 
     @ApiOperation("login")
-    public ResponseEntity<?> login(HttpSession session) ;
+    public ResponseEntity<?> login(LoginDTO loginDTO) ;
 
     @ApiOperation("Find by Id")
     public UserDTO findById(@PathVariable("id") String id);

@@ -7,11 +7,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import project.frmr.controller.UserController;
+import project.frmr.dto.LoginDTO;
 import project.frmr.dto.UserDTO;
 import project.frmr.entity.User;
 import project.frmr.mapper.UserMapper;
+import project.frmr.repository.UserRepository;
 import project.frmr.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -30,6 +33,9 @@ public class UserControllerImpl implements UserController {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Override
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
@@ -40,8 +46,22 @@ public class UserControllerImpl implements UserController {
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity<?> login(HttpSession session) {
-        return new ResponseEntity<String>(session.getId(), null, HttpStatus.OK);
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        // Kullanıcı adı ve şifre bilgilerini alın
+        String username = loginDTO.getUsername();
+        String password = loginDTO.getPassword();
+        User user = userRepository.findByUsername(username);
+
+        if (user != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            if (encoder.matches(password, user.getPassword())) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @Override
