@@ -44,6 +44,10 @@ export default {
 
           this.userListDTO.id = response.data.id;
           this.userListDTO.name = response.data.name;
+          this.userListDTO.username = response.data.username;
+          this.userListDTO.fname = response.data.fname;
+          this.userListDTO.sname = response.data.sname;
+          this.userListDTO.email = response.data.email;
 
           this.userStore.userId = this.userListDTO.id;
           this.userStore.userName = this.userListDTO.username;
