@@ -56,7 +56,32 @@ export default {
       context.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
     },
     async detectFaces() {
-      // Önceki kodunuz burada yer alıyor
+      try {
+        const canvas = document.createElement('canvas');
+        const video = this.$refs.videoElement;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+        const formData = new FormData();
+        formData.append('image', blob, 'image.jpg');
+        const response = await fetch('http://127.0.0.1:5000/detect', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.status === 500) {
+          const errorData = await response.json();
+          console.error('Error from server:', errorData);
+          return;
+        }
+        const data = await response.json();
+
+        this.analyzeFaces(data);
+      } catch (error) {
+        console.error(error);
+      }
     },
     async analyzeFaces() {
       const overlayCanvas = this.$refs.overlayCanvas;
