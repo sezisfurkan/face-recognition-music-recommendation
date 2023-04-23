@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vladmandic/face-api": "^1.7.10",
     "pinia": "^2.0.33",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
