@@ -41,13 +41,19 @@ export default {
       }
     },
     closeCamera() {
+      // Kamerayı durdur ve analiz fonksiyonunu iptal et
       clearInterval(this.intervalId);
       if (this.stream) {
         const tracks = this.stream.getTracks();
-        tracks.forEach((track) => track.stop());
+        tracks.forEach(track => track.stop());
         this.$refs.videoElement.srcObject = null;
         this.stream = null;
       }
+
+      // Sarı kareyi temizle
+      const overlayCanvas = this.$refs.overlayCanvas;
+      const context = overlayCanvas.getContext('2d');
+      context.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
     },
     async detectFaces() {
       // Önceki kodunuz burada yer alıyor
