@@ -16,7 +16,9 @@
   </div>
 </template>
 <script>
+let currnetmode ='';
 export default {
+
   data() {
     return {
       stream: null,
@@ -67,6 +69,9 @@ export default {
       errorBox.innerText = JSON.stringify(errorData, null, 2);
       errorBox.style.display = 'block';
     },
+    showMode(mode) {
+      return JSON.stringify(mode);
+    },
     async detectFaces() {
       try {
         const canvas = document.createElement('canvas');
@@ -90,7 +95,10 @@ export default {
         }*/
         if (response.status === 500) {
           const errorData = await response.json();
-          console.error('Error from server:', errorData);
+          currnetmode =errorData;
+          console.error('Error from server:',errorData);
+          console.error('deneme',this.showMode(currnetmode.message))
+          this.showMode(currnetmode.message);
           this.showError(errorData.message);
           return;
         }
@@ -109,10 +117,9 @@ export default {
       const context = overlayCanvas.getContext('2d');
 
       const options = new faceapi.TinyFaceDetectorOptions({
-        inputSize: 416, // Bu değeri artırarak hassasiyeti artırın (128, 160, 224, 320, 416, 512, 608)
-        scoreThreshold: 0.5, // Bu değeri düşürerek hassasiyeti artırın (0 ile 1 arasında)
+        inputSize: 608, // Bu değeri artırarak hassasiyeti artırın (128, 160, 224, 320, 416, 512, 608)
+        scoreThreshold: 0.1, // Bu değeri düşürerek hassasiyeti artırın (0 ile 1 arasında)
       });
-
       while (video.paused !== true) {
         const detections = await faceapi.detectAllFaces(video, options).withFaceLandmarks();
 
@@ -120,7 +127,33 @@ export default {
         context.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
         detections.forEach((detection) => {
           const box = detection.detection.box;
-          context.strokeStyle = 'yellow';
+      /*    const modeColors = {
+            '"angry"': 'red',
+            '"disgusted"': 'green',
+            '"fearful"' : 'purple',
+            '"happy"': 'yellow',
+            '"neutral"': 'gray',
+            '"sad"': 'blue',
+            '"surprised"': 'orange'
+          };
+          context.strokeStyle = modeColors[xmode]; // Moda göre rengi ayarla
+          */
+          const xmode = this.showMode(currnetmode.message)
+          if(xmode =='"angry"'){
+            context.strokeStyle ='red';
+          }else if(xmode =='"disgusted"'){
+            context.strokeStyle ='yellow';
+          } else if(xmode =='"fearful"'){
+            context.strokeStyle ='purple';
+          }else if(xmode =='"happy"'){
+            context.strokeStyle ='green';
+          }else if(xmode =='"sad"'){
+            context.strokeStyle ='blue';
+          }else if(xmode =='"neutral"'){
+            context.strokeStyle ='black';
+          }else if(xmode =='"surprised"'){
+            context.strokeStyle ='orange';
+          }
           context.lineWidth = 2;
           context.strokeRect(box.x, box.y, box.width, box.height);
         });
