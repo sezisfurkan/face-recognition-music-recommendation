@@ -7,7 +7,12 @@
     <div class="video-container">
       <video ref="videoElement" autoplay></video>
       <canvas ref="overlayCanvas" class="overlay-canvas"></canvas>
+      <div class="error-container">
+        <div id="error-box"></div>
+      </div>
     </div>
+    <div v-if="errorData" class="error-box">{{ errorData }}</div>
+
   </div>
 </template>
 <script>
@@ -16,6 +21,7 @@ export default {
     return {
       stream: null,
       intervalId: null,
+      errorData: null, // Yeni eklenen değişken
     };
   },
   mounted() {
@@ -38,6 +44,7 @@ export default {
         this.intervalId = setInterval(this.detectFaces, 1000);
       } catch (error) {
         console.error(error);
+        this.errorData = error.message; // errorData değişkenine hata mesajını aktar
       }
     },
     closeCamera() {
@@ -55,6 +62,11 @@ export default {
       const context = overlayCanvas.getContext('2d');
       context.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
     },
+    showError(errorData) {
+      const errorBox = document.getElementById('error-box');
+      errorBox.innerText = JSON.stringify(errorData, null, 2);
+      errorBox.style.display = 'block';
+    },
     async detectFaces() {
       try {
         const canvas = document.createElement('canvas');
@@ -71,9 +83,15 @@ export default {
           body: formData
         });
 
+        /*if (response.status === 500) {
+          const errorData = await response.json();
+          console.error('Error from server:', errorData);
+          return;
+        }*/
         if (response.status === 500) {
           const errorData = await response.json();
           console.error('Error from server:', errorData);
+          this.showError(errorData.message);
           return;
         }
         const data = await response.json();
@@ -124,5 +142,24 @@ video,
   position: absolute;
   top: 0;
   left: 0;
+}
+.error-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  padding: 10px;
+}
+.error-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 300px;
+  background-color: red;
+  padding: 10px;
+  border: 1px solid white;
+  overflow: scroll;
+  max-height: 200px;
 }
 </style>
