@@ -3,15 +3,23 @@
     <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
     <button @click="openCamera">Kamera Aç</button>
     <button @click="closeCamera">Kamera Kapat</button>
+    <button @click="start">Start</button>
+    <button @click="stop">Stop</button>
+    <div v-if="running" class="countdown">{{ count }}</div>
+    <div v-if="!running" class="message">{{ message }}</div>
+    <div v-if="timerStarted">{{ remainingTime }}</div>
+    <div v-if="timerEnded">{{ errorData }}</div>
     <canvas ref="canvasElement" style="display:none;"></canvas>
     <div class="video-container">
       <video ref="videoElement" autoplay></video>
       <canvas ref="overlayCanvas" class="overlay-canvas"></canvas>
-      <div class="error-container">
-        <div id="error-box"></div>
-      </div>
     </div>
-    <div v-if="errorData" class="error-box">{{ errorData }}</div>
+    <div v-for="(color, emotion) in emotions" :style="{ backgroundColor: color, textAlign: 'right' }">
+      {{ emotion }}
+    </div>
+    <div id="error-box" class="error">
+      <div v-if="errorData">{{ errorData }}</div>
+    </div>
 
   </div>
 </template>
@@ -21,15 +29,48 @@ export default {
 
   data() {
     return {
+      emotions: {
+        'angry': 'red',
+        'disgusted': 'yellow',
+        'fearful': 'purple',
+        'happy': 'green',
+        'neutral': 'grey',
+        'sad': 'blue',
+        'surprised': 'orange'
+      },
       stream: null,
       intervalId: null,
       errorData: null, // Yeni eklenen değişken
+      timerStarted: false,
+      timerEnded: false,
+      remainingTime: 10,
+      running: false,
+      count: 0,
+      message: '',
     };
   },
   mounted() {
     this.init();
   },
   methods: {
+    start() {
+      this.running = true;
+      this.count = 0;
+      this.intervalId = setInterval(() => {
+        this.count++;
+        if (this.count >= 5) {
+          this.stop();
+          this.closeCamera();
+          this.message =currnetmode.message+" playlist will come";
+        }
+      }, 1000);
+    },
+    stop() {
+      clearInterval(this.intervalId);
+      this.running = false;
+      this.count = 0;
+      this.message = '';
+    },
     async init() {
       // Yüz tanıma modelini yükle
       await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
@@ -93,12 +134,21 @@ export default {
           console.error('Error from server:', errorData);
           return;
         }*/
+        if (response.status === 200) {
+          const errorData = await response.json();
+          currnetmode =errorData;
+        /*  console.error('Error from server:',errorData);
+          console.error('deneme',this.showMode(currnetmode.message))*/
+          this.showMode(currnetmode.message);
+          this.showError(errorData.message);
+          return;
+        }
         if (response.status === 500) {
           const errorData = await response.json();
           currnetmode =errorData;
-          console.error('Error from server:',errorData);
-          console.error('deneme',this.showMode(currnetmode.message))
-          this.showMode(currnetmode.message);
+          /*  console.error('Error from server:',errorData);
+            console.error('deneme',this.showMode(currnetmode.message))*/
+         /* this.showMode(currnetmode.message);*/
           this.showError(errorData.message);
           return;
         }
@@ -106,7 +156,7 @@ export default {
 
         this.analyzeFaces(data);
       } catch (error) {
-        console.error(error);
+        /*console.error(error);*/
       }
     },
     async analyzeFaces() {
@@ -150,7 +200,7 @@ export default {
           }else if(xmode =='"sad"'){
             context.strokeStyle ='blue';
           }else if(xmode =='"neutral"'){
-            context.strokeStyle ='black';
+            context.strokeStyle ='grey';
           }else if(xmode =='"surprised"'){
             context.strokeStyle ='orange';
           }
@@ -166,6 +216,28 @@ export default {
 };
 </script>
 <style>
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.countdown {
+  font-size: 36px;
+  margin-top: 20px;
+}
+
+.message {
+  font-size: 24px;
+  margin-top: 20px;
+}
 .video-container {
   position: relative;
 }
@@ -176,13 +248,24 @@ video,
   top: 0;
   left: 0;
 }
+.error {
+  margin-top: 350px;
+  background-color: white;
+
+
+}
 .error-box {
   position: absolute;
+  textAlign: 'right';
   top: 0;
   right: 0;
   background-color: red;
   color: white;
   padding: 10px;
+}
+.color{
+  right: 50px;
+
 }
 .error-container {
   position: fixed;
@@ -195,4 +278,5 @@ video,
   overflow: scroll;
   max-height: 200px;
 }
+
 </style>
