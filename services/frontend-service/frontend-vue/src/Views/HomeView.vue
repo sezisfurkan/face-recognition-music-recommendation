@@ -17,6 +17,7 @@
     <div v-for="(color, emotion) in emotions" :style="{ backgroundColor: color, textAlign: 'right' }">
       {{ emotion }}
     </div>
+
     <div id="error-box" class="error">
       <div v-if="errorData">{{ errorData }}</div>
     </div>
@@ -70,6 +71,7 @@ export default {
       this.running = false;
       this.count = 0;
       this.message = '';
+
     },
     async init() {
       // Yüz tanıma modelini yükle
@@ -104,6 +106,10 @@ export default {
       const overlayCanvas = this.$refs.overlayCanvas;
       const context = overlayCanvas.getContext('2d');
       context.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+
+      this.errorData = null;
+      const errorDiv = document.getElementById('error-box');
+      errorDiv.style.display = 'none';
     },
     showError(errorData) {
       const errorBox = document.getElementById('error-box');
