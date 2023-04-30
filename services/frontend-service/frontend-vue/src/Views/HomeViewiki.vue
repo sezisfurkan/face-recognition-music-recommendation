@@ -124,7 +124,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #player {
   margin: 0 auto;
   display: block;
