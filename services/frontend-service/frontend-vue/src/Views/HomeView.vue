@@ -6,6 +6,7 @@
     <button @click="closeCamera">Kamera Kapat</button>
     <button @click="start">Start</button>
     <button @click="stop">Stop</button>
+    <button v-if="showPlaylistButton" @click="goToPlaylist">Şarkıya Git</button>
     <div v-if="running" class="countdown">{{ count }}</div>
     <div v-if="!running" class="message">{{ message }}</div>
     <div v-if="timerStarted">{{ remainingTime }}</div>
@@ -57,6 +58,7 @@ export default {
       running: false,
       count: 0,
       message: '',
+      showPlayListButton: false,
 
       chartData: null,
       chartOptions: {
@@ -88,6 +90,7 @@ export default {
           this.closeCamera();
           this.message =currnetmode.message+" playlist will come";
           this.showInfo();
+          this.showPlayListButton = true;
         }
 
       }, 1000);
