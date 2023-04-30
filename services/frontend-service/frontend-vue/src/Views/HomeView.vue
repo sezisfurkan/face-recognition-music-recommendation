@@ -1,5 +1,6 @@
 <template>
   <div class="menubar">
+    <Toast />
     <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
     <button @click="openCamera">Kamera Aç</button>
     <button @click="closeCamera">Kamera Kapat</button>
@@ -14,13 +15,21 @@
       <video ref="videoElement" autoplay></video>
       <canvas ref="overlayCanvas" class="overlay-canvas"></canvas>
     </div>
-    <div v-for="(color, emotion) in emotions" :style="{ backgroundColor: color, textAlign: 'right' }">
-      {{ emotion }}
-    </div>
+<!--    <div v-for="(color, emotion) in emotions" :style="{ backgroundColor: color, textAlign: 'right' }">-->
+<!--      {{ emotion }}-->
+<!--    </div>-->
+
 
     <div id="error-box" class="error">
       <div v-if="errorData">{{ errorData }}</div>
     </div>
+
+    <div class="card flex justify-content-center">
+      <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
+    </div>
+
+
+
 
   </div>
 </template>
@@ -48,10 +57,25 @@ export default {
       running: false,
       count: 0,
       message: '',
+
+      chartData: null,
+      chartOptions: {
+        plugins: {
+          legend: {
+            labels: {
+              usePointStyle: true
+            }
+          }
+        }
+      }
     };
+
+
   },
   mounted() {
     this.init();
+    this.chartData = this.setChartData();
+
   },
   methods: {
     start() {
@@ -63,7 +87,9 @@ export default {
           this.stop();
           this.closeCamera();
           this.message =currnetmode.message+" playlist will come";
+          this.showInfo();
         }
+
       }, 1000);
     },
     stop() {
@@ -218,6 +244,34 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
     },
+    showInfo() {
+      this.$toast.add({ severity: 'info', summary: 'Info Message', detail: this.message , life: 3000 });
+    },
+
+    setChartData() {
+      const documentStyle = getComputedStyle(document.body);
+      const colors = [
+        "red",
+        "yellow",
+        "purple",
+        "green",
+        "grey",
+        "blue",
+        "orange"
+      ];
+
+      return {
+        labels: ["Angry", "Disgusted", "Fearful", "Happy", "Neutral", "Sad", "Surprised"],
+        datasets: [
+          {
+            data: [100, 100, 100, 100, 100, 100, 100],
+            backgroundColor: colors,
+            hoverBackgroundColor: colors,
+          },
+        ],
+      };
+    },
+
   },
 };
 </script>
