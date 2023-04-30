@@ -62,7 +62,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 /* Form styles */
 form {
   display: flex;

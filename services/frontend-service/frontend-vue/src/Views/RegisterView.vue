@@ -85,7 +85,7 @@ export default {
 
 };
 </script>
-<style>
+<style scoped>
 /* Body styles */
 body {
   background-color: #333;

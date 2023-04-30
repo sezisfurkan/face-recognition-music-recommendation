@@ -1,6 +1,8 @@
 <template>
   <div class="menubar">
     <Toast />
+
+    <div style="float: left">
     <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
     <button @click="openCamera">Kamera Aç</button>
     <button @click="closeCamera">Kamera Kapat</button>
@@ -16,18 +18,21 @@
       <video ref="videoElement" autoplay></video>
       <canvas ref="overlayCanvas" class="overlay-canvas"></canvas>
     </div>
-<!--    <div v-for="(color, emotion) in emotions" :style="{ backgroundColor: color, textAlign: 'right' }">-->
-<!--      {{ emotion }}-->
-<!--    </div>-->
 
+
+    </div>
+
+  <div style="float: right">
 
     <div id="error-box" class="error">
       <div v-if="errorData">{{ errorData }}</div>
     </div>
-
     <div class="card flex justify-content-center">
       <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
     </div>
+
+
+  </div>
 
 
 
@@ -278,7 +283,9 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+
+
 button {
   background-color: #4CAF50;
   border: none;
@@ -299,7 +306,7 @@ button {
 
 .message {
   font-size: 24px;
-  margin-top: 20px;
+
 }
 .video-container {
   position: relative;
