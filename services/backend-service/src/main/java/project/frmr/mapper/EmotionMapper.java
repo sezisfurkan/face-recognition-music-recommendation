@@ -2,6 +2,7 @@ package project.frmr.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 import project.frmr.dto.EmotionDTO;
 import project.frmr.entity.Emotion;
 

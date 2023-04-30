@@ -1,13 +1,15 @@
 package project.frmr.service.impl;
 
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import project.frmr.entity.Emotion;
-import project.frmr.entity.User;
-import project.frmr.mapper.UserMapper;
+import project.frmr.mapper.EmotionMapper;
 import project.frmr.repository.EmotionRepository;
 import project.frmr.service.EmotionService;
 
@@ -15,20 +17,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmotionServiceImpl implements EmotionService {
 
-    private UserMapper userMapper;
+    private EmotionMapper emotionMapper;
 
     @Autowired
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public void setEmotionMapper(EmotionMapper emotionMapper) {
+        this.emotionMapper=emotionMapper;
     }
 
     @Autowired
     private EmotionRepository emotionRepository;
 
     public EmotionServiceImpl(EmotionRepository emotionRepository) {
-
         this.emotionRepository = emotionRepository;
     }
 
