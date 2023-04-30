@@ -2,7 +2,11 @@ package project.frmr.mapper;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import project.frmr.dto.EmotionDTO;
+import project.frmr.dto.SongDTO;
 import project.frmr.dto.UserDTO;
+import project.frmr.entity.Emotion;
+import project.frmr.entity.Song;
 import project.frmr.entity.User;
 import project.frmr.repository.UserRepository;
 
@@ -52,6 +56,90 @@ public class AppConfig {
 
             @Override
             public List<UserDTO> asDTOList(List<User> entityList) {
+                return entityList.stream()
+                        .map(this::asDTO)
+                        .collect(Collectors.toList());
+            }
+        };
+    }
+
+    @Bean
+    public EmotionMapper emotionMapper() {
+        return new EmotionMapper() {
+            @Override
+            public Emotion asEntity(EmotionDTO dto) {
+                Emotion emotion = new Emotion();
+                emotion.setId(dto.getId());
+                emotion.setEmotionName(dto.getEmotionName());
+                emotion.setSongs(dto.getSongs());
+                return emotion;
+
+            }
+
+            @Override
+            public EmotionDTO asDTO(Emotion entity) {
+                EmotionDTO emotionDTO = new EmotionDTO();
+                emotionDTO.setId(entity.getId());
+                emotionDTO.setEmotionName(entity.getEmotionName());
+                emotionDTO.setSongs(entity.getSongs());
+
+                return emotionDTO;
+            }
+
+            @Override
+            public List<Emotion> asEntityList(List<EmotionDTO> dtoList) {
+                return dtoList.stream()
+                        .map(this::asEntity)
+                        .collect(Collectors.toList());
+            }
+
+            @Override
+            public List<EmotionDTO> asDTOList(List<Emotion> entityList) {
+                return entityList.stream()
+                        .map(this::asDTO)
+                        .collect(Collectors.toList());
+            }
+        };
+    }
+
+    @Bean
+    public SongMapper songMapper() {
+        return new SongMapper() {
+            @Override
+            public Song asEntity(SongDTO dto) {
+                Song song = new Song();
+                song.setId(dto.getId());
+                song.setTitle(dto.getTitle());
+                song.setArtist(dto.getArtist());
+                song.setGenre(dto.getGenre());
+                song.setEmotion(dto.getEmotion());
+                song.setApiKey(dto.getApiKey());
+                return song;
+
+            }
+
+            @Override
+            public SongDTO asDTO(Song entity) {
+                SongDTO songDTO = new SongDTO();
+                songDTO.setId(entity.getId());
+                songDTO.setTitle(entity.getTitle());
+                songDTO.setArtist(entity.getArtist());
+                songDTO.setGenre(entity.getGenre());
+                songDTO.setEmotion(entity.getEmotion());
+                songDTO.setApiKey(entity.getApiKey());
+
+                return songDTO;
+            }
+
+            @Override
+            public List<Song> asEntityList(List<SongDTO> dtoList) {
+                return dtoList.stream()
+                        .map(this::asEntity)
+                        .collect(Collectors.toList());
+            }
+
+            @Override
+            public List<SongDTO> asDTOList(List<Song> entityList) {
                 return entityList.stream()
                         .map(this::asDTO)
                         .collect(Collectors.toList());

@@ -4,30 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import project.frmr.entity.Emotion;
+import org.springframework.stereotype.Service;
 import project.frmr.entity.Song;
-import project.frmr.mapper.UserMapper;
-import project.frmr.repository.EmotionRepository;
+import project.frmr.mapper.SongMapper;
 import project.frmr.repository.SongRepository;
 import project.frmr.service.SongService;
-
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class SongServiceImpl implements SongService {
 
-    private UserMapper userMapper;
+   private SongMapper songMapper;
 
     @Autowired
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public void setSongMapper(SongMapper songMapper) {
+        this.songMapper=songMapper;
     }
 
     @Autowired
     private SongRepository songRepository;
 
     public SongServiceImpl(SongRepository songRepository) {
-
        this.songRepository = songRepository;
     }
 
