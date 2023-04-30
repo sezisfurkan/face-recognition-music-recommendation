@@ -8,7 +8,11 @@
     <button @click="closeCamera">Kamera Kapat</button>
     <button @click="start">Start</button>
     <button @click="stop">Stop</button>
-    <button v-if="showPlaylistButton" @click="goToPlaylist">Şarkıya Git</button>
+     <div v-if="showPlayListButton">
+       <Button>Sarkiya git </Button>
+
+     </div>
+
     <div v-if="running" class="countdown">{{ count }}</div>
     <div v-if="!running" class="message">{{ message }}</div>
     <div v-if="timerStarted">{{ remainingTime }}</div>
@@ -135,7 +139,7 @@ export default {
         this.$refs.videoElement.srcObject = null;
         this.stream = null;
       }
-
+      this.showPlayListButton = false;
       // Sarı kareyi temizle
       const overlayCanvas = this.$refs.overlayCanvas;
       const context = overlayCanvas.getContext('2d');
