@@ -26,12 +26,20 @@ const routes = [
     name: "RegisterView",
     component: RegisterView,
   },
+/*  {
+    path: "/homeview2",
+    name: "home2",
+    query:'',
+    component: HomeViewiki,
+
+  },*/
   {
     path: "/homeview2",
     name: "home2",
     component: HomeViewiki,
-
+   /* props: (route) => ({ query: route.query }),*/
   },
+
 ];
 
 const router = createRouter({

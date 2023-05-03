@@ -3,6 +3,7 @@
   <div>
     <div id="player"></div>
     <div>
+      <h1>{{ message }}</h1>
       <h2>How do you feel today?</h2>
       <button @click="playVideo('Rv7WZ92eXqQ')">Anger</button>
       <button @click="playVideo('boUKG5R5ED0')">Disgust</button>
@@ -18,9 +19,19 @@
 <!--<button @click="playVideo('Rv7WZ92eXqQ')">Anger</button>-->
 
 <script>
+
 export default {
+/*  props: {
+    query: {
+      type: Object,
+      default: () => ({}),
+    },
+  },*/
+
   data() {
     return {
+
+
       emotions: [
         { name: "Anger", videoId: "Rv7WZ92eXqQ" },
         { name: "Disgust", videoId: "boUKG5R5ED0" },

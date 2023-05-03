@@ -46,7 +46,7 @@
 <script>
 
 import axios from 'axios';
-import {useUserStore} from "../stores/UserStore.js";
+
 
 let currnetmode ='';
 
@@ -54,7 +54,6 @@ export default {
 
   data() {
     return {
-      userStore: useUserStore(),
 
       emotions: {
         'angry': 'red',
@@ -106,12 +105,21 @@ export default {
           this.closeCamera();
           this.showInfo();
           const emotionId= this.selectMode(currnetmode.message);
-          console.log(emotionId);
-          this.message =emotionId+ currnetmode.message+" playlist will come";
+          emotionId.then(result => {
+            this.message =result +"  "+ currnetmode.message+" playlist will come";
+            console.log(result); // Promise'in sonucunu yazdırır
+          });
+
+
           this.showPlayListButton = true;
         }
 
       }, 1000);
+    },
+    goToPlayList(y){
+
+
+      this.$router.push({ name: "home2" });
     },
     selectMode(x){
       if(x=='angry'){
@@ -321,10 +329,7 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
     },
-    goToPlayList(){
-      this.userStore.currentMode = currnetmode.message;
-      this.$router.push('/homeview2');
-    },
+
     showInfo() {
       this.$toast.add({ severity: 'info', summary: 'Info Message', detail: this.message , life: 3000 });
     },
