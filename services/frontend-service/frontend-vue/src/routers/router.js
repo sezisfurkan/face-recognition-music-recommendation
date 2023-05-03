@@ -36,6 +36,7 @@ const routes = [
   {
     path: "/homeview2",
     name: "home2",
+    params:'bos',
     component: HomeViewiki,
    /* props: (route) => ({ query: route.query }),*/
   },

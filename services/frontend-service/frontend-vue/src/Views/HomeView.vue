@@ -6,11 +6,10 @@
     <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
     <button @click="openCamera">Kamera Aç</button>
     <button @click="closeCamera">Kamera Kapat</button>
-    <button @click="start">Start</button>
-    <button @click="stop">Stop</button>
+    <button @click="start">Sayaci baslat</button>
+    <button @click="stop">Durdur her seyi</button>
      <div v-if="showPlayListButton">
-       <Button @click="goToPlayList" >Sarkiya git </Button>
-
+<!--       <Button @click="goToPlayList" >Sarkiyi baslat</Button>-->
      </div>
 
     <div v-if="running" class="countdown">{{ count }}</div>
@@ -27,7 +26,7 @@
     </div>
 
   <div style="float: right">
-
+    <div id="player" ></div>  <!--    this.videoPlayerOpen =false;-->
     <div id="error-box" class="error">
       <div v-if="errorData">{{ errorData }}</div>
     </div>
@@ -37,10 +36,6 @@
 
 
   </div>
-
-
-
-
   </div>
 </template>
 <script>
@@ -64,6 +59,9 @@ export default {
         'sad': 'blue',
         'surprised': 'orange'
       },
+      videoId: null,
+      videoPlayerOpen: false,
+      player: null,
       stream: null,
       intervalId: null,
       errorData: null, // Yeni eklenen değişken
@@ -92,8 +90,28 @@ export default {
   mounted() {
     this.init();
     this.chartData = this.setChartData();
+    // Youtube API'i yukle
+    window.onYouTubeIframeAPIReady = () => {
+      this.player = new window.YT.Player("player", {
+        videoId: this.videoId,
+        playerVars: {
+          autoplay: 1,
+          controls: 1
+        },
+        events: {
+          onReady: this.onPlayerReady
+        }
+      });
+    };
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
   },
+
+
   methods: {
     start() {
       this.running = true;
@@ -106,21 +124,29 @@ export default {
           this.showInfo();
           const emotionId= this.selectMode(currnetmode.message);
           emotionId.then(result => {
-            this.message =result +"  "+ currnetmode.message+" playlist will come";
+            const api =this.getApiKey(result)
+            api.then(result=> {
+              this.goToPlayList(result);
+              console.log(result);
+            });
+            this.message =currnetmode.message+" mode songs playing";
             console.log(result); // Promise'in sonucunu yazdırır
           });
-
-
           this.showPlayListButton = true;
         }
 
       }, 1000);
     },
     goToPlayList(y){
+   /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
 
-
-      this.$router.push({ name: "home2" });
+      this.playVideo(y);
     },
+    async getApiKey(emotionId){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/song/emotion/'+emotionId);
+      return y.data;
+    },
+
     selectMode(x){
       if(x=='angry'){
         return this.getAngryId();
@@ -139,16 +165,48 @@ export default {
       }else{
         console.log(x);
       }
+    },
+    async getAngryId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"angry"');
+      return y.data;
+    },
+    async getDisgustedId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"disgusted"');
+      return y.data;
+    },
+    async getFearfulId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"fearful"');
+      return y.data;
+    },
+    async getHappyId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"happy"');
+      return y.data;
 
     },
+    async getSadId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"sad"');
+      return y.data;
+    },
+    async getNeutralId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"neutral"');
+      return y.data;
+    },
+    async getSurprisedId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"surprised"');
+      return y.data;
+    },
+
     stop() {
       clearInterval(this.intervalId);
+      this.showPlayListButton= false;
       this.running = false;
       this.count = 0;
       this.message = '';
-
+      this.closeCamera();
+      this.stopVideo();
     },
     async init() {
+      this.videoPlayerOpen=false;
       // Yüz tanıma modelini yükle
       await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
       await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
@@ -194,6 +252,40 @@ export default {
     showMode(mode) {
       return JSON.stringify(mode);
     },
+    onPlayerReady(event) {
+      event.target.playVideo();
+    },
+    playVideo(videoId) {
+      this.videoPlayerOpen= true;
+      // Video ID'si değiştirilirse, oynatıcıyı güncelleyin
+      if (this.player && videoId !== this.videoId) {
+        this.videoId = videoId;
+        this.player.loadVideoById(videoId);
+      } else if (!this.player) {
+        // İlk kez bir video seçiliyorsa, oynatıcıyı oluşturun ve videoyu oynatın
+        this.videoId = videoId;
+        this.player = new window.YT.Player("player", {
+          videoId: videoId,
+          playerVars: {
+            autoplay: 1,
+            controls: 1
+          },
+          events: {
+            onReady: this.onPlayerReady
+          }
+        });
+      }
+      // Videoyu oynat
+      this.player.playVideo();
+    },
+    stopVideo() {
+
+      if (this.player) {
+        this.videoPlayerOpen =false;
+        this.player.stopVideo();
+
+      }
+    },
     async detectFaces() {
       try {
         const canvas = document.createElement('canvas');
@@ -230,63 +322,6 @@ export default {
       } catch (error) {
       }
     },
-/*     saveEmotionId(){
-      const emotion =currnetmode.message;
-         if(emotion =='"angry"'){
-        emotionId =this.getAngryId();
-      }else if(emotion =='"disgusted"'){
-        emotionId = this.getDisgustedId();
-           console.log(emotionId.data);
-      } else if(emotion =='"fearful"'){
-        emotionId = this.getFearfulId();
-           console.log(emotionId.data);
-      }else if(emotion =='"happy"'){
-        emotionId = this.getHappyId();
-           console.log(emotionId.data);
-      }else if(emotion =='"sad"'){
-        emotionId = this.getSadId();
-           console.log(emotionId.data);
-      }else if(emotion =='"neutral"'){
-        emotionId = this.getNeutralId();
-           console.log(emotionId.data);
-      }else if(emotion =='"surprised"'){
-        emotionId =  this.getSurprisedId();
-           console.log(emotionId.data);
-      }
-    },*/
-
-    async getAngryId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"angry"');
-      return y.data;
-    },
-    async getDisgustedId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"disgusted"');
-      return y.data;
-    },
-    async getFearfulId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"fearful"');
-      return y.data;
-    },
-    async getHappyId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"happy"');
-      return y.data;
-
-    },
-    async getSadId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"sad"');
-      return y.data;
-    },
-    async getNeutralId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"neutral"');
-      return y.data;
-    },
-    async getSurprisedId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"surprised"');
-      return y.data;
-    },
-
-
-
     async analyzeFaces() {
       const overlayCanvas = this.$refs.overlayCanvas;
       const video = this.$refs.videoElement;
@@ -331,7 +366,7 @@ export default {
     },
 
     showInfo() {
-      this.$toast.add({ severity: 'info', summary: 'Info Message', detail: this.message , life: 3000 });
+      this.$toast.add({ severity: 'info', summary: 'Info Message', detail:this.message , life: 3000 });
     },
 
     setChartData() {
@@ -357,7 +392,6 @@ export default {
         ],
       };
     },
-
   },
 };
 </script>

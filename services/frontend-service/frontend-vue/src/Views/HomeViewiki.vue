@@ -3,7 +3,7 @@
   <div>
     <div id="player"></div>
     <div>
-      <h1>{{ message }}</h1>
+      <h1>{{ emotionId }}</h1>
       <h2>How do you feel today?</h2>
       <button @click="playVideo('Rv7WZ92eXqQ')">Anger</button>
       <button @click="playVideo('boUKG5R5ED0')">Disgust</button>
@@ -19,14 +19,9 @@
 <!--<button @click="playVideo('Rv7WZ92eXqQ')">Anger</button>-->
 
 <script>
-
+let emotionId='';
 export default {
-/*  props: {
-    query: {
-      type: Object,
-      default: () => ({}),
-    },
-  },*/
+
 
   data() {
     return {
@@ -45,6 +40,10 @@ export default {
     };
   },
   mounted() {
+      const yData = this.$route.params.yData;
+
+      // yData burada kullanılabilir
+
     // Youtube API'i yukle
     window.onYouTubeIframeAPIReady = () => {
       this.player = new window.YT.Player("player", {
@@ -168,3 +167,93 @@ div > button:hover {
   background-color: #0069d9;
 }
 </style>
+<!--
+
+<template>
+  <div>
+    <div id="player"></div>
+    <div>
+      <h2> Bugün nasıl hissediyorsun? </h2>
+      <button @click="playVideo('Rv7WZ92eXqQ')">Öfke</button>
+      <button @click="playVideo('boUKG5R5ED0')">İğrenme</button>
+      <button @click="playVideo('CHelYRZaieA')">Korku</button>
+      <button @click="playVideo('qzk-u7GrBKg')">Mutluluk</button>
+      <button @click="playVideo('8-N3G0pPU64')">Üzüntü</button>
+      <button @click="playVideo('FfqJHU-1Jrc')">Şaşkınlık</button>
+      <button @click="stopVideo">Durdur</button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      videoId: null,
+      player: null
+    };
+  },
+  mounted() {
+    // Youtube API'i yukle
+    window.onYouTubeIframeAPIReady = () => {
+      this.player = new window.YT.Player("player", {
+        videoId: this.videoId,
+        playerVars: {
+          autoplay: 1,
+          controls: 1
+        },
+        events: {
+          onReady: this.onPlayerReady
+        }
+      });
+    };
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  },
+  methods: {
+    onPlayerReady(event) {
+      event.target.playVideo();
+    },
+    playVideo(videoId) {
+      // Video ID'si değiştirilirse, oynatıcıyı güncelleyin
+      if (this.player && videoId !== this.videoId) {
+        this.videoId = videoId;
+        this.player.loadVideoById(videoId);
+      } else if (!this.player) {
+        // İlk kez bir video seçiliyorsa, oynatıcıyı oluşturun ve videoyu oynatın
+        this.videoId = videoId;
+        this.player = new window.YT.Player("player", {
+          videoId: videoId,
+          playerVars: {
+            autoplay: 1,
+            controls: 1
+          },
+          events: {
+            onReady: this.onPlayerReady
+          }
+        });
+      }
+      // Videoyu oynat
+      this.player.playVideo();
+    },
+    stopVideo() {
+      // Videoyu durdur ve oynatıcı nesnesini yok et
+      if (this.player) {
+        this.player.stopVideo();
+        this.player = null;
+      }
+    }
+  },
+  beforeDestroy() {
+    // Video oynatıcıyı durdurun ve nesneyi yok edin
+    if (this.player) {
+      this.player.stopVideo();
+      this.player = null;
+    }
+  }
+};
+</script>
+-->
