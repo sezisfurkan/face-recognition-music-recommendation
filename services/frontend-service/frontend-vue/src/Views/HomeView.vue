@@ -49,7 +49,7 @@ import axios from 'axios';
 import {useUserStore} from "../stores/UserStore.js";
 
 let currnetmode ='';
-let emotionId='';
+
 export default {
 
   data() {
@@ -75,7 +75,7 @@ export default {
       count: 0,
       message: '',
       showPlayListButton: false,
-
+      emotionId:'',
       chartData: null,
       chartOptions: {
         plugins: {
@@ -105,12 +105,33 @@ export default {
           this.stop();
           this.closeCamera();
           this.showInfo();
-          this.saveEmotionId();
-          this.message =emotionId+currnetmode.message+" playlist will come";
+          const emotionId= this.selectMode(currnetmode.message);
+          console.log(emotionId);
+          this.message =emotionId+ currnetmode.message+" playlist will come";
           this.showPlayListButton = true;
         }
 
       }, 1000);
+    },
+    selectMode(x){
+      if(x=='angry'){
+        return this.getAngryId();
+      }else if(x =='disgusted'){
+        return this.getDisgustedId();
+      } else if(x=='fearful'){
+        return this.getFearfulId();
+      }else if(x =='happy'){
+        return this.getHappyId();
+      }else if(x=='sad'){
+        return this.getSadId();
+      }else if(x =='neutral'){
+        return this.getNeutralId();
+      }else if(x =='surprised'){
+        return this.getSurprisedId();
+      }else{
+        console.log(x);
+      }
+
     },
     stop() {
       clearInterval(this.intervalId);
@@ -201,13 +222,62 @@ export default {
       } catch (error) {
       }
     },
-
-    async saveEmotionId(){
+/*     saveEmotionId(){
       const emotion =currnetmode.message;
-      emotionId = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/'+emotion);
-      console.log(emotionId)
+         if(emotion =='"angry"'){
+        emotionId =this.getAngryId();
+      }else if(emotion =='"disgusted"'){
+        emotionId = this.getDisgustedId();
+           console.log(emotionId.data);
+      } else if(emotion =='"fearful"'){
+        emotionId = this.getFearfulId();
+           console.log(emotionId.data);
+      }else if(emotion =='"happy"'){
+        emotionId = this.getHappyId();
+           console.log(emotionId.data);
+      }else if(emotion =='"sad"'){
+        emotionId = this.getSadId();
+           console.log(emotionId.data);
+      }else if(emotion =='"neutral"'){
+        emotionId = this.getNeutralId();
+           console.log(emotionId.data);
+      }else if(emotion =='"surprised"'){
+        emotionId =  this.getSurprisedId();
+           console.log(emotionId.data);
+      }
+    },*/
+
+    async getAngryId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"angry"');
+      return y.data;
+    },
+    async getDisgustedId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"disgusted"');
+      return y.data;
+    },
+    async getFearfulId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"fearful"');
+      return y.data;
+    },
+    async getHappyId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"happy"');
+      return y.data;
 
     },
+    async getSadId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"sad"');
+      return y.data;
+    },
+    async getNeutralId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"neutral"');
+      return y.data;
+    },
+    async getSurprisedId(){
+      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"surprised"');
+      return y.data;
+    },
+
+
 
     async analyzeFaces() {
       const overlayCanvas = this.$refs.overlayCanvas;
