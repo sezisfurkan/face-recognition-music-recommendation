@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import project.frmr.entity.Emotion;
 import project.frmr.entity.Song;
 import project.frmr.mapper.SongMapper;
 import project.frmr.repository.SongRepository;
@@ -69,5 +70,10 @@ public class SongServiceImpl implements SongService {
             return save(entity);
         }
         return null;
+    }
+
+    @Override
+    public String findSongApiKeyByEmotionId(String EmotionId){
+        return songRepository.findSongApiKeyByEmotionId(EmotionId);
     }
 }

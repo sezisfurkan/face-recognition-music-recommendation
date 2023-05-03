@@ -9,7 +9,7 @@
     <button @click="start">Start</button>
     <button @click="stop">Stop</button>
      <div v-if="showPlayListButton">
-       <Button>Sarkiya git </Button>
+       <Button @click="goToPlayList" >Sarkiya git </Button>
 
      </div>
 
@@ -44,11 +44,16 @@
   </div>
 </template>
 <script>
+
+import {useUserStore} from "../stores/UserStore.js";
+
 let currnetmode ='';
 export default {
 
   data() {
     return {
+      userStore: useUserStore(),
+
       emotions: {
         'angry': 'red',
         'disgusted': 'yellow',
@@ -255,6 +260,10 @@ export default {
         // 100ms bekle ve tekrar analiz yap
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
+    },
+    goToPlayList(){
+      this.userStore.currentMode = currnetmode.message;
+      this.$router.push('/homeviewiki');
     },
     showInfo() {
       this.$toast.add({ severity: 'info', summary: 'Info Message', detail: this.message , life: 3000 });

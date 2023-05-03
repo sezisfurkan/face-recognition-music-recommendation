@@ -77,4 +77,10 @@ public class SongControllerImpl implements SongController {
        Song song = songMapper.asEntity(songDTO);
         return songMapper.asDTO(songService.update(song, id));
     }
+
+    @Override
+    @GetMapping("/emotion/{id}")
+    public String getSongApiKeyByEmotionId(@PathVariable("id") String emotionId){
+        return songService.findSongApiKeyByEmotionId(emotionId);
+    }
 }

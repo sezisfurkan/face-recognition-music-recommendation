@@ -57,6 +57,8 @@ export default {
     onPlayerReady(event) {
       event.target.playVideo();
     },
+    getSongIdByMood(){},
+
     playVideo(videoId, audioOnly) {
       // Seçilen duyguya göre videoyu/sesi oynat
       this.selectedEmotion = this.emotions.find(e => e.videoId === videoId);

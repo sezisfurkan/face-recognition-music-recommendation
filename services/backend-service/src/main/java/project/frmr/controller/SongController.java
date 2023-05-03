@@ -34,4 +34,7 @@ public interface SongController {
     @ApiOperation("Update one data")
     public SongDTO update(@RequestBody SongDTO dto, @PathVariable("id") String id);
 
+    @ApiOperation("Get Song By emotionId")
+    String getSongApiKeyByEmotionId(String emotionId);
+
 }
