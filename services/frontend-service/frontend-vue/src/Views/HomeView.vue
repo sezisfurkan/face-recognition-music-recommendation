@@ -121,7 +121,7 @@ export default {
         if (this.count >= 5) {
           this.stop();
           this.closeCamera();
-          this.showInfo();
+
           const emotionId= this.selectMode(currnetmode.message);
           emotionId.then(result => {
             const api =this.getApiKey(result)
@@ -130,6 +130,7 @@ export default {
               console.log(result);
             });
             this.message =currnetmode.message+" mode songs playing";
+            this.showInfo();
             console.log(result); // Promise'in sonucunu yazdırır
           });
           this.showPlayListButton = true;
