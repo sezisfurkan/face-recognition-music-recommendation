@@ -81,6 +81,13 @@ public class EmotionControllerImpl implements EmotionController {
     @Override
     @GetMapping("/emo/{name}")
     public String getEmotionIdByEmotionName(@PathVariable("name") String emotionName){
+        /*------------------------------backup plan---------------*/
+        /*StringBuilder sb = new StringBuilder(emotionName);
+        sb.deleteCharAt(0);
+        StringBuilder sb2 = new StringBuilder(sb);
+        int index = sb2.length();
+        sb2.deleteCharAt(index -1);
+        String newName = sb2.toString();*/
         return emotionService.findEmotionIdByEmotionName(emotionName);
     }
 }
