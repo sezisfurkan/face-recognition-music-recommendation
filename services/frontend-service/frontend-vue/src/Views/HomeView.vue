@@ -45,9 +45,11 @@
 </template>
 <script>
 
+import axios from 'axios';
 import {useUserStore} from "../stores/UserStore.js";
 
 let currnetmode ='';
+let emotionId='';
 export default {
 
   data() {
@@ -102,8 +104,9 @@ export default {
         if (this.count >= 5) {
           this.stop();
           this.closeCamera();
-          this.message =currnetmode.message+" playlist will come";
           this.showInfo();
+          this.saveEmotionId();
+          this.message =emotionId+currnetmode.message+" playlist will come";
           this.showPlayListButton = true;
         }
 
@@ -178,16 +181,10 @@ export default {
           body: formData
         });
 
-        /*if (response.status === 500) {
-          const errorData = await response.json();
-          console.error('Error from server:', errorData);
-          return;
-        }*/
+
         if (response.status === 200) {
           const errorData = await response.json();
           currnetmode =errorData;
-        /*  console.error('Error from server:',errorData);
-          console.error('deneme',this.showMode(currnetmode.message))*/
           this.showMode(currnetmode.message);
           this.showError(errorData.message);
           return;
@@ -195,9 +192,6 @@ export default {
         if (response.status === 500) {
           const errorData = await response.json();
           currnetmode =errorData;
-          /*  console.error('Error from server:',errorData);
-            console.error('deneme',this.showMode(currnetmode.message))*/
-         /* this.showMode(currnetmode.message);*/
           this.showError(errorData.message);
           return;
         }
@@ -205,9 +199,16 @@ export default {
 
         this.analyzeFaces(data);
       } catch (error) {
-        /*console.error(error);*/
       }
     },
+
+    async saveEmotionId(){
+      const emotion =currnetmode.message;
+      emotionId = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/'+emotion);
+      console.log(emotionId)
+
+    },
+
     async analyzeFaces() {
       const overlayCanvas = this.$refs.overlayCanvas;
       const video = this.$refs.videoElement;
@@ -226,17 +227,6 @@ export default {
         context.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
         detections.forEach((detection) => {
           const box = detection.detection.box;
-      /*    const modeColors = {
-            '"angry"': 'red',
-            '"disgusted"': 'green',
-            '"fearful"' : 'purple',
-            '"happy"': 'yellow',
-            '"neutral"': 'gray',
-            '"sad"': 'blue',
-            '"surprised"': 'orange'
-          };
-          context.strokeStyle = modeColors[xmode]; // Moda göre rengi ayarla
-          */
           const xmode = this.showMode(currnetmode.message)
           if(xmode =='"angry"'){
             context.strokeStyle ='red';
@@ -263,7 +253,7 @@ export default {
     },
     goToPlayList(){
       this.userStore.currentMode = currnetmode.message;
-      this.$router.push('/homeviewiki');
+      this.$router.push('/homeview2');
     },
     showInfo() {
       this.$toast.add({ severity: 'info', summary: 'Info Message', detail: this.message , life: 3000 });
@@ -337,29 +327,6 @@ video,
 
 
 }
-.error-box {
-  position: absolute;
-  textAlign: 'right';
-  top: 0;
-  right: 0;
-  background-color: red;
-  color: white;
-  padding: 10px;
-}
-.color{
-  right: 50px;
 
-}
-.error-container {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  width: 300px;
-  background-color: red;
-  padding: 10px;
-  border: 1px solid white;
-  overflow: scroll;
-  max-height: 200px;
-}
 
 </style>

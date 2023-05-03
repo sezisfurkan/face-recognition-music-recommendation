@@ -79,7 +79,7 @@ public class EmotionControllerImpl implements EmotionController {
         return emotionMapper.asDTO(emotionService.update(emotion, id));    }
 
     @Override
-    @GetMapping("/emotion/{name}")
+    @GetMapping("/emo/{name}")
     public String getEmotionIdByEmotionName(@PathVariable("name") String emotionName){
         return emotionService.findEmotionIdByEmotionName(emotionName);
     }
