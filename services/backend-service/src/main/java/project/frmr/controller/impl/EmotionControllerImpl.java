@@ -77,4 +77,10 @@ public class EmotionControllerImpl implements EmotionController {
     public EmotionDTO update(@RequestBody EmotionDTO emotionDTO, @PathVariable("id") String id) {
         Emotion emotion = emotionMapper.asEntity(emotionDTO);
         return emotionMapper.asDTO(emotionService.update(emotion, id));    }
+
+    @Override
+    @GetMapping("/emotion/{name}")
+    public String getEmotionIdByEmotionName(@PathVariable("name") String emotionName){
+        return emotionService.findEmotionIdByEmotionName(emotionName);
+    }
 }

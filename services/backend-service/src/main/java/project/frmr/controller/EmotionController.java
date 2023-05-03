@@ -35,4 +35,7 @@ public interface EmotionController {
     @ApiOperation("Update one data")
     public EmotionDTO update(@RequestBody EmotionDTO dto, @PathVariable("id") String id);
 
+    @ApiOperation("Get EmotionId By emotionName")
+    String getEmotionIdByEmotionName(String emotionName);
+
 }

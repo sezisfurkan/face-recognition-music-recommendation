@@ -74,4 +74,9 @@ public class EmotionServiceImpl implements EmotionService {
         }
         return null;
     }
+
+    @Override
+    public String findEmotionIdByEmotionName(String EmotionName){
+        return emotionRepository.findEmotionIdByEmotionName(EmotionName);
+    }
 }
