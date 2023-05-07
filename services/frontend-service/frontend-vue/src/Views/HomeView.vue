@@ -8,6 +8,7 @@
       <button @click="closeCamera">Kamera Kapat</button>
       <button @click="start">Sayaci baslat</button>
       <button @click="stop">Durdur her seyi</button>
+      <button @click="clearChart">Sayaci sifirla </button>
       <!--      <button @click="closeVideoPlayer">Video penceresini kapat</button>-->
 
       <div v-if="showPlayListButton">
@@ -240,6 +241,7 @@ export default {
 
     stop() {
       clearInterval(this.intervalId);
+
       this.showPlayListButton= false;
       this.running = false;
       this.count = 0;
@@ -266,6 +268,12 @@ export default {
         console.error(error);
         this.errorData = error.message; // errorData değişkenine hata mesajını aktar
       }
+    },
+    clearChart() {
+      Object.keys(this.emotionCounters).forEach(emotion => {
+        this.emotionCounters[emotion] = 0;
+      });
+      this.updateChartData();
     },
     closeCamera() {
       // Kamerayı durdur ve analiz fonksiyonunu iptal et
