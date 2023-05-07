@@ -8,7 +8,9 @@
     <button @click="closeCamera">Kamera Kapat</button>
     <button @click="start">Sayaci baslat</button>
     <button @click="stop">Durdur her seyi</button>
-     <div v-if="showPlayListButton">
+<!--      <button @click="closeVideoPlayer">Video penceresini kapat</button>-->
+
+      <div v-if="showPlayListButton">
 <!--       <Button @click="goToPlayList" >Sarkiyi baslat</Button>-->
      </div>
 
@@ -113,6 +115,7 @@ export default {
 
 
   methods: {
+
     start() {
       this.running = true;
       this.count = 0;
@@ -121,7 +124,6 @@ export default {
         if (this.count >= 5) {
           this.stop();
           this.closeCamera();
-
           const emotionId= this.selectMode(currnetmode.message);
           emotionId.then(result => {
             const api =this.getApiKey(result)
@@ -283,6 +285,7 @@ export default {
 
       if (this.player) {
         this.videoPlayerOpen =false;
+       /* this.player.destroy(); // player nesnesini sayfadan kaldırır*/
         this.player.stopVideo();
 
       }
@@ -322,6 +325,19 @@ export default {
         this.analyzeFaces(data);
       } catch (error) {
       }
+    },
+    resetPage() {
+      // Reset all necessary data properties to their default values
+      this.running = false;
+      this.count = 0;
+      this.message = '';
+      this.showPlayListButton = false;
+      this.chartData = this.setChartData();
+      this.timerStarted = false;
+      this.timerEnded = false;
+      this.remainingTime = 10;
+      this.errorData = null;
+      // Call any other methods you need to reset the page to its initial state
     },
     async analyzeFaces() {
       const overlayCanvas = this.$refs.overlayCanvas;
@@ -368,6 +384,12 @@ export default {
 
     showInfo() {
       this.$toast.add({ severity: 'info', summary: 'Info Message', detail:this.message , life: 3000 });
+    },
+    closeVideoPlayer() {
+      if (this.player) {
+        this.player.destroy(); // player nesnesini sayfadan kaldırır
+        this.videoPlayerOpen = false; // videoPlayerOpen değişkenini false yaparak video penceresinin kapandığını işaretler
+      }
     },
 
     setChartData() {
@@ -432,7 +454,7 @@ video,
   left: 0;
 }
 .error {
-  margin-top: 350px;
+  margin-top: 30px;
   background-color: white;
 
 
