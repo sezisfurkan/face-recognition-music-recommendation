@@ -3,41 +3,41 @@
     <Toast />
 
     <div style="float: left">
-    <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
-    <button @click="openCamera">Kamera Aç</button>
-    <button @click="closeCamera">Kamera Kapat</button>
-    <button @click="start">Sayaci baslat</button>
-    <button @click="stop">Durdur her seyi</button>
-<!--      <button @click="closeVideoPlayer">Video penceresini kapat</button>-->
+      <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
+      <button @click="openCamera">Kamera Aç</button>
+      <button @click="closeCamera">Kamera Kapat</button>
+      <button @click="start">Sayaci baslat</button>
+      <button @click="stop">Durdur her seyi</button>
+      <!--      <button @click="closeVideoPlayer">Video penceresini kapat</button>-->
 
       <div v-if="showPlayListButton">
-<!--       <Button @click="goToPlayList" >Sarkiyi baslat</Button>-->
-     </div>
+        <!--       <Button @click="goToPlayList" >Sarkiyi baslat</Button>-->
+      </div>
 
-    <div v-if="running" class="countdown">{{ count }}</div>
-    <div v-if="!running" class="message">{{ message }}</div>
-    <div v-if="timerStarted">{{ remainingTime }}</div>
-    <div v-if="timerEnded">{{ errorData }}</div>
-    <canvas ref="canvasElement" style="display:none;"></canvas>
-    <div class="video-container">
-      <video ref="videoElement" autoplay></video>
-      <canvas ref="overlayCanvas" class="overlay-canvas"></canvas>
+      <div v-if="running" class="countdown">{{ count }}</div>
+      <div v-if="!running" class="message">{{ message }}</div>
+      <div v-if="timerStarted">{{ remainingTime }}</div>
+      <div v-if="timerEnded">{{ errorData }}</div>
+      <canvas ref="canvasElement" style="display:none;"></canvas>
+      <div class="video-container">
+        <video ref="videoElement" autoplay></video>
+        <canvas ref="overlayCanvas" class="overlay-canvas"></canvas>
+      </div>
+
+
     </div>
 
+    <div style="float: right">
+      <div id="player" ></div>  <!--    this.videoPlayerOpen =false;-->
+      <div id="error-box" class="error">
+        <div v-if="errorData">{{ errorData }}</div>
+      </div>
+      <div class="card flex justify-content-center">
+        <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
+      </div>
+
 
     </div>
-
-  <div style="float: right">
-    <div id="player" ></div>  <!--    this.videoPlayerOpen =false;-->
-    <div id="error-box" class="error">
-      <div v-if="errorData">{{ errorData }}</div>
-    </div>
-    <div class="card flex justify-content-center">
-      <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
-    </div>
-
-
-  </div>
   </div>
 </template>
 <script>
@@ -122,29 +122,49 @@ export default {
   },
 
 
+
   methods: {
+    updateChartData() {
+      const newData = {
+        labels: Object.keys(this.emotionCounters),
+        datasets: [
+          {
+            data: Object.values(this.emotionCounters),
+            backgroundColor: Object.values(this.emotions),
+          },
+        ],
+      };
+
+      this.chartData = newData;
+    },
 
     start() {
       this.running = true;
       this.count = 0;
-
       this.intervalId = setInterval(() => {
         this.count++;
         if (currnetmode.message in this.emotionCounters) {
           this.emotionCounters[currnetmode.message]++;
         }
         if (this.count >= 10) {
+
           this.stop();
           this.closeCamera();
           console.log(this.emotionCounters);
-          const emotionId= this.selectMode(currnetmode.message);
+          this.updateChartData();
+          const highestEmotion = Object.entries(this.emotionCounters).reduce((prev, current) => {
+            return (prev[1] > current[1]) ? prev : current;
+          });
+
+
+          const emotionId= this.selectMode(highestEmotion[0]);
           emotionId.then(result => {
             const api =this.getApiKey(result)
             api.then(result=> {
               this.goToPlayList(result);
               console.log(result);
             });
-            this.message =currnetmode.message+" mode songs playing";
+            this.message = highestEmotion[0]+" mode songs playing";
             this.showInfo();
             console.log(result); // Promise'in sonucunu yazdırır
           });
@@ -153,8 +173,14 @@ export default {
 
       }, 1000);
     },
+
+
+    emotionChart(x){
+      return x;
+
+    },
     goToPlayList(y){
-   /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
+      /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
 
       this.playVideo(y);
     },
@@ -298,7 +324,7 @@ export default {
 
       if (this.player) {
         this.videoPlayerOpen =false;
-       /* this.player.destroy(); // player nesnesini sayfadan kaldırır*/
+        /* this.player.destroy(); // player nesnesini sayfadan kaldırır*/
         this.player.stopVideo();
 
       }
@@ -418,11 +444,11 @@ export default {
       ];
 
       return {
-        labels: ["Angry", "Disgusted", "Fearful", "Happy", "Neutral", "Sad", "Surprised"],
+        labels: Object.keys(this.emotionCounters),
         datasets: [
           {
-            data: [100, 100, 100, 100, 100, 100, 100],
-            backgroundColor: colors,
+            data: Object.values(this.emotionCounters),
+            backgroundColor: Object.values(this.emotions),
             hoverBackgroundColor: colors,
           },
         ],
