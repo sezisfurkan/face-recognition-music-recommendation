@@ -1,36 +1,44 @@
 <template>
-  <form @submit.prevent="login">
-    <label>
-      Kullanıcı Adı:
-      <input type="text" v-model="username">
-    </label>
-    <label>
-      Parola:
-      <input type="password" v-model="password">
-    </label>
-    <button type="submit">Giriş Yap</button>
-  </form>
+  <div>
+    <form @submit.prevent="login">
+      <label>
+        Kullanıcı Adı:
+        <input type="text" v-model="username">
+      </label>
+      <label>
+        Parola:
+        <input type="password" v-model="password">
+      </label>
+      <button type="submit" :disabled="loading">
+      <span v-if="loading">
+        <i class="pi pi-spin pi-spinner"></i> Giriş Yapılıyor...
+      </span>
+        <span v-else>Giriş Yap</span>
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
 import axios from 'axios';
 import {useUserStore} from "../stores/UserStore.js";
 import {UserListDTO} from "../dtos/UserListDTO.js";
+
 export default {
   data() {
     return {
       username: "",
       password: "",
       URL: 'http://localhost:8090/api/v1/user/login',
-        userStore: useUserStore(),
-        userListDTO: new UserListDTO(),
-
-
+      userStore: useUserStore(),
+      userListDTO: new UserListDTO(),
+      loading: false,
     };
 
   },
   methods: {
     async login() {
+      this.loading = true;
 
       try {
         const response = await axios.post(`${this.URL}`, {
@@ -42,22 +50,23 @@ export default {
           this.$router.push('/profile')
         }, 1000)
 
-          this.userListDTO.id = response.data.id;
-          this.userListDTO.name = response.data.name;
-          this.userListDTO.username = response.data.username;
-          this.userListDTO.fname = response.data.fname;
-          this.userListDTO.sname = response.data.sname;
-          this.userListDTO.email = response.data.email;
+        this.userListDTO.id = response.data.id;
+        this.userListDTO.name = response.data.name;
+        this.userListDTO.username = response.data.username;
+        this.userListDTO.fname = response.data.fname;
+        this.userListDTO.sname = response.data.sname;
+        this.userListDTO.email = response.data.email;
 
-          this.userStore.userId = this.userListDTO.id;
-          this.userStore.userName = this.userListDTO.username;
+        this.userStore.userId = this.userListDTO.id;
+        this.userStore.userName = this.userListDTO.username;
 
-          console.log(this.userStore.userId)
-          this.$router.push('/profile');
+        console.log(this.userStore.userId)
+        this.$router.push('/profile');
       } catch (error) {
         console.error(error);
         // Başarısız giriş durumunu burada yönetin
       }
+      this.loading = false;
     },
   },
 };
