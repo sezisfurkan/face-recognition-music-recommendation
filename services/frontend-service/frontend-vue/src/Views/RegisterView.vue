@@ -49,6 +49,13 @@ export default {
     };
   },
   methods: {
+      saveToLocalStorage(userStore) {
+          const userData = {
+              userId: userStore.userId,
+              userName: userStore.userName,
+          };
+          localStorage.setItem("user", JSON.stringify(userData));
+      },
     async handleSubmit() {
       const userData = {
         firstname: this.form.firstname,
@@ -76,6 +83,7 @@ export default {
 
         console.log(this.userStore.userId)
         this.$router.push('/profile');
+          this.saveToLocalStorage(this.userStore);
       } catch (error) {
         console.error(error);
       }
