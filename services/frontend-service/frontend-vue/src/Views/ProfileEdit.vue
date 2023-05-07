@@ -22,7 +22,12 @@
       <input v-model="form.email" type="email" required />
     </div>
     <div>
-      <button type="submit">Update Profile</button>
+      <button type="submit" :disabled="loading">
+        <span v-if="loading">
+          <i class="pi pi-spin pi-spinner"></i> Lütfen Beklyiniz...
+        </span>
+        <span v-else>Update Profile</span>
+      </button>
     </div>
   </form>
 </template>
@@ -45,11 +50,13 @@ export default {
       userStore: useUserStore(),
       URL: 'http://localhost:8090/api/v1/user',
       userListDTO: new UserListDTO(),
-      currentUserId:''
+      currentUserId:'',
+      loading: false
     }
   },
   methods: {
      async handleSubmit() {
+       this.loading = true;
       const localStorageData = localStorage.getItem("user");
       const userData = {
         firstname: this.form.firstname,
@@ -85,6 +92,7 @@ export default {
       } catch (error) {
         console.error(error);
       }
+       this.loading = false;
 
       console.log(this.form);
     }
