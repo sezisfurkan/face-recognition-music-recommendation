@@ -8,34 +8,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import project.frmr.dto.EmotionDTO;
+import project.frmr.dto.PlaylistDTO;
 
 import java.util.List;
 
-public interface EmotionController {
-
+public interface PlaylistController {
 
     @ApiOperation("Add new data")
-    public EmotionDTO save(@RequestBody EmotionDTO emotion);
-
-    @ApiOperation("login")
-    public ResponseEntity<?> login(HttpSession session) ;
+    public PlaylistDTO save(@RequestBody PlaylistDTO playlistDTO);
 
     @ApiOperation("Find by Id")
-    public EmotionDTO findById(@PathVariable("id") String id);
+    public PlaylistDTO findById(@PathVariable("id") String id);
 
     @ApiOperation("Delete based on primary key")
     public void delete(@PathVariable("id") String id);
 
     @ApiOperation("Find all data")
-    public List<EmotionDTO> list();
+    public List<PlaylistDTO> list();
 
     @ApiOperation("Pagination request")
-    public Page<EmotionDTO> pageQuery(Pageable pageable);
+    public Page<PlaylistDTO> pageQuery(Pageable pageable);
 
     @ApiOperation("Update one data")
-    public EmotionDTO update(@RequestBody EmotionDTO dto, @PathVariable("id") String id);
-
-    @ApiOperation("Get EmotionId By emotionName")
-    String getEmotionIdByEmotionName(String emotionName);
+    public PlaylistDTO update(@RequestBody PlaylistDTO dto, @PathVariable("id") String id);
 
 }

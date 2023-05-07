@@ -51,7 +51,15 @@ export default {
 
   data() {
     return {
-
+      emotionCounters: {
+        'angry': 0,
+        'disgusted': 0,
+        'fearful': 0,
+        'happy': 0,
+        'neutral': 0,
+        'sad': 0,
+        'surprised': 0
+      },
       emotions: {
         'angry': 'red',
         'disgusted': 'yellow',
@@ -119,11 +127,16 @@ export default {
     start() {
       this.running = true;
       this.count = 0;
+
       this.intervalId = setInterval(() => {
         this.count++;
-        if (this.count >= 5) {
+        if (currnetmode.message in this.emotionCounters) {
+          this.emotionCounters[currnetmode.message]++;
+        }
+        if (this.count >= 10) {
           this.stop();
           this.closeCamera();
+          console.log(this.emotionCounters);
           const emotionId= this.selectMode(currnetmode.message);
           emotionId.then(result => {
             const api =this.getApiKey(result)
