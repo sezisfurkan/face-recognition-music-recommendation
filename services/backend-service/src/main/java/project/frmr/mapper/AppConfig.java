@@ -3,9 +3,11 @@ package project.frmr.mapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import project.frmr.dto.EmotionDTO;
+import project.frmr.dto.PlaylistDTO;
 import project.frmr.dto.SongDTO;
 import project.frmr.dto.UserDTO;
 import project.frmr.entity.Emotion;
+import project.frmr.entity.Playlist;
 import project.frmr.entity.Song;
 import project.frmr.entity.User;
 import project.frmr.repository.UserRepository;
@@ -146,4 +148,42 @@ public class AppConfig {
             }
         };
     }
+
+    @Bean
+    public PlaylistMapper playlistMapper() {
+        return new PlaylistMapper() {
+            @Override
+            public Playlist asEntity(PlaylistDTO dto) {
+                Playlist playlist = new Playlist();
+                playlist.setId(dto.getId());
+                playlist.setSongs(dto.getSongs());
+                playlist.setUser(dto.getUser());
+                return playlist;
+            }
+
+            @Override
+            public PlaylistDTO asDTO(Playlist entity) {
+                PlaylistDTO playlistDTO = new PlaylistDTO();
+                playlistDTO.setId(entity.getId());
+                playlistDTO.setSongs(entity.getSongs());
+                playlistDTO.setUser(entity.getUser());
+                return playlistDTO;
+            }
+
+            @Override
+            public List<Playlist> asEntityList(List<PlaylistDTO> dtoList) {
+                return dtoList.stream()
+                        .map(this::asEntity)
+                        .collect(Collectors.toList());
+            }
+
+            @Override
+            public List<PlaylistDTO> asDTOList(List<Playlist> entityList) {
+                return entityList.stream()
+                        .map(this::asDTO)
+                        .collect(Collectors.toList());
+            }
+        };
+    }
+
 }

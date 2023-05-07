@@ -9,37 +9,29 @@ import org.hibernate.annotations.GenericGenerator;
 import project.frmr.models.ModifiableEntity;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "SONG")
+@Table(name = "PLAYLIST")
 @Data
-public class Song extends ModifiableEntity {
+public class Playlist extends ModifiableEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @Column(nullable = false, length = 100)
-    private String title;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(nullable = false, length = 100)
-    private String artist;
-
-    @Column(nullable = false, length = 100)
-    private String genre;
-
-    @ManyToOne
-    @JoinColumn(name = "emotion_id")
-    private Emotion emotion;
-
-    @Column(nullable = false, length = 100)
-    private String apiKey;
-
+    @ManyToMany
+    @JoinTable(
+            name = "playlist_songs",
+            joinColumns = @JoinColumn(name = "playlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private Set<Song> songs = new HashSet<>();
 }
