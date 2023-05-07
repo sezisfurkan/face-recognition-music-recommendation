@@ -1,22 +1,26 @@
 <template>
-  <h1>{{this.userStore.userName}}</h1>
+  <div>
+    <h1>{{ userStore.userName }}</h1>
+    <button @click="handleEditProfile">Edit Profile</button>
+  </div>
 </template>
 
 <script>
-import {UserListDTO} from "../dtos/UserListDTO.js";
-import axios from 'axios';
-import {useUserStore} from "../stores/UserStore.js";
+import { useUserStore } from "../stores/UserStore.js";
+
 export default {
   data() {
     return {
-
       userStore: useUserStore(),
-
     };
   },
-  mounted() {
-
+  methods: {
+    handleEditProfile() {
+      this.$router.push('/profile_edit');
+      console.log("Edit Profile button clicked");
+    }
   }
 };
 </script>
+
 <style></style>

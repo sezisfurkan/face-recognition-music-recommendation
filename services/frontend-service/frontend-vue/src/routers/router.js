@@ -4,6 +4,7 @@ import ProfileView from "../Views/ProfileView.vue";
 import AuthView from "../Views/AuthView.vue";
 import RegisterView from "../Views/RegisterView.vue";
 import HomeViewiki from "../Views/HomeViewiki.vue";
+import ProfileEdit from "../Views/ProfileEdit.vue";
 
 const routes = [
   {
@@ -39,6 +40,13 @@ const routes = [
     params:'bos',
     component: HomeViewiki,
    /* props: (route) => ({ query: route.query }),*/
+  },
+  {
+    path: "/profile_edit",
+    name: "profile_edit",
+    params:'bos',
+    component: ProfileEdit,
+    /* props: (route) => ({ query: route.query }),*/
   },
 
 ];
