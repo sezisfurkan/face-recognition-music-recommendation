@@ -9,6 +9,7 @@
       <button @click="start">Sayaci baslat</button>
       <button @click="stop">Durdur her seyi</button>
       <button @click="clearChart">Sayaci sifirla </button>
+
       <!--      <button @click="closeVideoPlayer">Video penceresini kapat</button>-->
 
       <div v-if="showPlayListButton">
@@ -28,8 +29,23 @@
 
     </div>
 
-    <div style="float: right">
+    <div  style="float: right">
+
+
+      <div v-if="show" class="my-div"></div>
+      <div>
+
+
       <div id="player" ></div>  <!--    this.videoPlayerOpen =false;-->
+        <div>
+          <Button icon="pi pi-chevron-left" @click="previousOption" />
+          <span>{{ selectedOption }}</span>
+          <Button icon="pi pi-chevron-right" @click="nextOption" />
+        </div>
+      </div>
+
+
+
       <div id="error-box" class="error">
         <div v-if="errorData">{{ errorData }}</div>
       </div>
@@ -70,6 +86,11 @@ export default {
         'sad': 'blue',
         'surprised': 'orange'
       },
+
+      selectedOptionIndex: 0,
+      options: ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'],
+
+
       videoId: null,
       videoPlayerOpen: false,
       player: null,
@@ -81,6 +102,7 @@ export default {
       remainingTime: 10,
       running: false,
       count: 0,
+      show:true,
       message: '',
       showPlayListButton: false,
       emotionId:'',
@@ -98,6 +120,24 @@ export default {
 
 
   },
+
+
+  computed: {
+    selectedOption() {
+
+
+
+      return this.options[this.selectedOptionIndex];
+    }
+  },
+
+
+
+
+
+
+
+
   mounted() {
     this.init();
     this.chartData = this.setChartData();
@@ -121,10 +161,48 @@ export default {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
   },
-
-
-
   methods: {
+
+
+    goToPlayList(apiKeyList){
+      /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
+      console.log(apiKeyList);
+      if (apiKeyList.length === 0) {
+        console.log("ERROR: apiKeyList is empty");
+        return null; // Boş dizi için null döndür
+      }
+
+
+      const randomIndex = Math.floor(Math.random() * apiKeyList.length);
+      const randomApiKey = apiKeyList[randomIndex];
+
+      this.playVideo(randomApiKey);
+    },
+
+
+
+    previousOption() {
+      this.selectedOptionIndex--;
+      if (this.selectedOptionIndex < 0) {
+        this.selectedOptionIndex = this.options.length - 1;
+      }
+    },
+    nextOption() {
+      this.selectedOptionIndex++;
+      if (this.selectedOptionIndex >= this.options.length) {
+        this.selectedOptionIndex = 0;
+      }
+    },
+
+
+
+
+
+
+
+
+
+
     updateChartData() {
       const newData = {
         labels: Object.keys(this.emotionCounters),
@@ -135,11 +213,10 @@ export default {
           },
         ],
       };
-
       this.chartData = newData;
     },
-
     start() {
+      this.toggleDiv();
       this.running = true;
       this.count = 0;
       this.intervalId = setInterval(() => {
@@ -148,7 +225,6 @@ export default {
           this.emotionCounters[currnetmode.message]++;
         }
         if (this.count >= 10) {
-
           this.stop();
           this.closeCamera();
           console.log(this.emotionCounters);
@@ -173,23 +249,6 @@ export default {
         }
 
       }, 1000);
-    },
-
-
-    emotionChart(x){
-      return x;
-
-    },
-    goToPlayList(apiKeyList){
-      /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
-      if (apiKeyList.length === 0) {
-        console.log("ERROR: apiKeyList is empty");
-        return null; // Boş dizi için null döndür
-      }
-      const randomIndex = Math.floor(Math.random() * apiKeyList.length);
-      const randomApiKey = apiKeyList[randomIndex];
-
-      this.playVideo(randomApiKey);
     },
     async getApiKey(emotionId){
       const y= await axios.get('http://127.0.0.1:8090/api/v1/song/emotion/'+emotionId);
@@ -247,7 +306,7 @@ export default {
 
     stop() {
       clearInterval(this.intervalId);
-
+      this.toggleDiv();
       this.showPlayListButton= false;
       this.running = false;
       this.count = 0;
@@ -255,6 +314,11 @@ export default {
       this.closeCamera();
       this.stopVideo();
     },
+    toggleDiv() {
+      this.show = !this.show;
+    },
+
+
     async init() {
       this.videoPlayerOpen=false;
       // Yüz tanıma modelini yükle
@@ -510,6 +574,9 @@ video,
   margin-top: 30px;
   background-color: white;
 
+
+}
+.my-div {
 
 }
 
