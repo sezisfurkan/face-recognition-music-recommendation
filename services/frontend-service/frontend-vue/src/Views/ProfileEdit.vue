@@ -56,7 +56,7 @@ export default {
   },
   methods: {
      async handleSubmit() {
-       this.loading = true;
+      this.loading = true;
       const localStorageData = localStorage.getItem("user");
       const userData = {
         firstname: this.form.firstname,
