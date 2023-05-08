@@ -16,8 +16,6 @@ public interface SongController {
     @ApiOperation("Add new data")
     public SongDTO save(@RequestBody SongDTO user);
 
-    @ApiOperation("login")
-    public ResponseEntity<?> login(HttpSession session) ;
 
     @ApiOperation("Find by Id")
     public SongDTO findById(@PathVariable("id") String id);
@@ -35,6 +33,6 @@ public interface SongController {
     public SongDTO update(@RequestBody SongDTO dto, @PathVariable("id") String id);
 
     @ApiOperation("Get Song By emotionId")
-    String getSongApiKeyByEmotionId(String emotionId);
+    List<String> getSongApiKeyByEmotionId(String emotionId);
 
 }

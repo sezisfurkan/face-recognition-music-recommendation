@@ -73,7 +73,8 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public String findSongApiKeyByEmotionId(String EmotionId){
-        return songRepository.findSongApiKeyByEmotionId(EmotionId);
+    public List<String> findSongApiKeyByEmotionId(String EmotionId){
+        List<String> apiKeys = songRepository.findSongApiKeyByEmotionId(EmotionId);
+        return apiKeys;
     }
 }

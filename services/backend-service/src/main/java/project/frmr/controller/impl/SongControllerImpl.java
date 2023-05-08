@@ -38,11 +38,6 @@ public class SongControllerImpl implements SongController {
     }
 
     @Override
-    public ResponseEntity<?> login(HttpSession session) {
-        return null;
-    }
-
-    @Override
     @GetMapping("/song/{id}")
     public SongDTO findById(@PathVariable("id") String id) {
         Song song = songService.findById(id).orElse(null);
@@ -80,7 +75,8 @@ public class SongControllerImpl implements SongController {
 
     @Override
     @GetMapping("/emotion/{id}")
-    public String getSongApiKeyByEmotionId(@PathVariable("id") String emotionId){
-        return songService.findSongApiKeyByEmotionId(emotionId);
+    public List<String> getSongApiKeyByEmotionId(@PathVariable("id") String emotionId){
+        List<String> apiKeys = songService.findSongApiKeyByEmotionId(emotionId);
+        return apiKeys;
     }
 }

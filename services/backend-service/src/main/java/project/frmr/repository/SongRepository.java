@@ -9,5 +9,5 @@ import java.util.List;
 public interface SongRepository extends JpaRepository<Song, String> {
     @Query(value = "select api_key\n" +
             "from song where emotion_id =:EmotionId", nativeQuery = true)
-    String findSongApiKeyByEmotionId (String EmotionId);
+    List<String> findSongApiKeyByEmotionId (String EmotionId);
 }
