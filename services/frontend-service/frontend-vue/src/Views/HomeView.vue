@@ -180,10 +180,16 @@ export default {
       return x;
 
     },
-    goToPlayList(y){
+    goToPlayList(apiKeyList){
       /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
+      if (apiKeyList.length === 0) {
+        console.log("ERROR: apiKeyList is empty");
+        return null; // Boş dizi için null döndür
+      }
+      const randomIndex = Math.floor(Math.random() * apiKeyList.length);
+      const randomApiKey = apiKeyList[randomIndex];
 
-      this.playVideo(y);
+      this.playVideo(randomApiKey);
     },
     async getApiKey(emotionId){
       const y= await axios.get('http://127.0.0.1:8090/api/v1/song/emotion/'+emotionId);
