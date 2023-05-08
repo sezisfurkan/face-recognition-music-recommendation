@@ -17,8 +17,7 @@ public interface EmotionController {
     @ApiOperation("Add new data")
     public EmotionDTO save(@RequestBody EmotionDTO emotion);
 
-    @ApiOperation("login")
-    public ResponseEntity<?> login(HttpSession session) ;
+
 
     @ApiOperation("Find by Id")
     public EmotionDTO findById(@PathVariable("id") String id);

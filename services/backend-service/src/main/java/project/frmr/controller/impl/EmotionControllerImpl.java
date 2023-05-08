@@ -37,10 +37,7 @@ public class EmotionControllerImpl implements EmotionController {
         return emotionMapper.asDTO(emotionService.save(emotion));
     }
 
-    @Override
-    public ResponseEntity<?> login(HttpSession session) {
-        return null;
-    }
+
 
     @Override
     @GetMapping("/emotion/{id}")
