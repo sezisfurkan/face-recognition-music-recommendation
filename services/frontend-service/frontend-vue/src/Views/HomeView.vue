@@ -1,6 +1,6 @@
 <template>
   <div class="menubar">
-    <Toast />
+    <Toast/>
 
     <div style="float: left">
       <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
@@ -8,7 +8,7 @@
       <button @click="closeCamera">Kamera Kapat</button>
       <button @click="start">Sayaci baslat</button>
       <button @click="stop">Durdur her seyi</button>
-      <button @click="clearChart">Sayaci sifirla </button>
+      <button @click="clearChart">Sayaci sifirla</button>
 
       <!--      <button @click="closeVideoPlayer">Video penceresini kapat</button>-->
 
@@ -29,28 +29,27 @@
 
     </div>
 
-    <div  style="float: right">
+    <div style="float: right">
 
 
       <div v-if="show" class="my-div"></div>
       <div>
 
 
-      <div id="player" ></div>  <!--    this.videoPlayerOpen =false;-->
+        <div id="player"></div>  <!--    this.videoPlayerOpen =false;-->
         <div>
-          <Button icon="pi pi-chevron-left" @click="previousOption" />
+          <Button icon="pi pi-chevron-left" @click="previousOption"/>
           <span>{{ selectedOption }}</span>
-          <Button icon="pi pi-chevron-right" @click="nextOption" />
+          <Button icon="pi pi-chevron-right" @click="nextOption"/>
         </div>
       </div>
-
 
 
       <div id="error-box" class="error">
         <div v-if="errorData">{{ errorData }}</div>
       </div>
       <div class="card flex justify-content-center">
-        <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
+        <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem"/>
       </div>
 
 
@@ -62,7 +61,7 @@
 import axios from 'axios';
 
 
-let currnetmode ='';
+let currnetmode = '';
 
 export default {
 
@@ -102,10 +101,10 @@ export default {
       remainingTime: 10,
       running: false,
       count: 0,
-      show:true,
+      show: true,
       message: '',
       showPlayListButton: false,
-      emotionId:'',
+      emotionId: '',
       chartData: null,
       chartOptions: {
         plugins: {
@@ -126,16 +125,9 @@ export default {
     selectedOption() {
 
 
-
       return this.options[this.selectedOptionIndex];
     }
   },
-
-
-
-
-
-
 
 
   mounted() {
@@ -164,7 +156,7 @@ export default {
   methods: {
 
 
-    goToPlayList(apiKeyList){
+    goToPlayList(apiKeyList) {
       /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
       console.log(apiKeyList);
       if (apiKeyList.length === 0) {
@@ -180,7 +172,6 @@ export default {
     },
 
 
-
     previousOption() {
       this.selectedOptionIndex--;
       if (this.selectedOptionIndex < 0) {
@@ -193,14 +184,6 @@ export default {
         this.selectedOptionIndex = 0;
       }
     },
-
-
-
-
-
-
-
-
 
 
     updateChartData() {
@@ -234,14 +217,14 @@ export default {
           });
 
 
-          const emotionId= this.selectMode(highestEmotion[0]);
+          const emotionId = this.selectMode(highestEmotion[0]);
           emotionId.then(result => {
-            const api =this.getApiKey(result)
-            api.then(result=> {
+            const api = this.getApiKey(result)
+            api.then(result => {
               this.goToPlayList(result);
               console.log(result);
             });
-            this.message = highestEmotion[0]+" mode songs playing";
+            this.message = highestEmotion[0] + " mode songs playing";
             this.showInfo();
             console.log(result); // Promise'in sonucunu yazdırır
           });
@@ -250,64 +233,64 @@ export default {
 
       }, 1000);
     },
-    async getApiKey(emotionId){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/song/emotion/'+emotionId);
+    async getApiKey(emotionId) {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/song/emotion/' + emotionId);
       return y.data;
     },
 
-    selectMode(x){
-      if(x=='angry'){
+    selectMode(x) {
+      if (x == 'angry') {
         return this.getAngryId();
-      }else if(x =='disgusted'){
+      } else if (x == 'disgusted') {
         return this.getDisgustedId();
-      } else if(x=='fearful'){
+      } else if (x == 'fearful') {
         return this.getFearfulId();
-      }else if(x =='happy'){
+      } else if (x == 'happy') {
         return this.getHappyId();
-      }else if(x=='sad'){
+      } else if (x == 'sad') {
         return this.getSadId();
-      }else if(x =='neutral'){
+      } else if (x == 'neutral') {
         return this.getNeutralId();
-      }else if(x =='surprised'){
+      } else if (x == 'surprised') {
         return this.getSurprisedId();
-      }else{
+      } else {
         console.log(x);
       }
     },
-    async getAngryId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"angry"');
+    async getAngryId() {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"angry"');
       return y.data;
     },
-    async getDisgustedId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"disgusted"');
+    async getDisgustedId() {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"disgusted"');
       return y.data;
     },
-    async getFearfulId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"fearful"');
+    async getFearfulId() {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"fearful"');
       return y.data;
     },
-    async getHappyId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"happy"');
+    async getHappyId() {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"happy"');
       return y.data;
 
     },
-    async getSadId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"sad"');
+    async getSadId() {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"sad"');
       return y.data;
     },
-    async getNeutralId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"neutral"');
+    async getNeutralId() {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"neutral"');
       return y.data;
     },
-    async getSurprisedId(){
-      const y= await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"surprised"');
+    async getSurprisedId() {
+      const y = await axios.get('http://127.0.0.1:8090/api/v1/emotion/emo/"surprised"');
       return y.data;
     },
 
     stop() {
       clearInterval(this.intervalId);
       this.toggleDiv();
-      this.showPlayListButton= false;
+      this.showPlayListButton = false;
       this.running = false;
       this.count = 0;
       this.message = '';
@@ -320,7 +303,7 @@ export default {
 
 
     async init() {
-      this.videoPlayerOpen=false;
+      this.videoPlayerOpen = false;
       // Yüz tanıma modelini yükle
       await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
       await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
@@ -330,8 +313,8 @@ export default {
     },
     async openCamera() {
       try {
-        const response = await fetch('http://127.0.0.1:5000/start', { method: 'POST', mode: 'no-cors' });
-        this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const response = await fetch('http://127.0.0.1:5000/start', {method: 'POST', mode: 'no-cors'});
+        this.stream = await navigator.mediaDevices.getUserMedia({video: true});
         this.$refs.videoElement.srcObject = this.stream;
         this.intervalId = setInterval(this.detectFaces, 1000);
       } catch (error) {
@@ -376,7 +359,7 @@ export default {
       event.target.playVideo();
     },
     playVideo(videoId) {
-      this.videoPlayerOpen= true;
+      this.videoPlayerOpen = true;
       // Video ID'si değiştirilirse, oynatıcıyı güncelleyin
       if (this.player && videoId !== this.videoId) {
         this.videoId = videoId;
@@ -401,7 +384,7 @@ export default {
     stopVideo() {
 
       if (this.player) {
-        this.videoPlayerOpen =false;
+        this.videoPlayerOpen = false;
         /* this.player.destroy(); // player nesnesini sayfadan kaldırır*/
         this.player.stopVideo();
 
@@ -426,14 +409,14 @@ export default {
 
         if (response.status === 200) {
           const errorData = await response.json();
-          currnetmode =errorData;
+          currnetmode = errorData;
           this.showMode(currnetmode.message);
           this.showError(errorData.message);
           return;
         }
         if (response.status === 500) {
           const errorData = await response.json();
-          currnetmode =errorData;
+          currnetmode = errorData;
           this.showError(errorData.message);
           return;
         }
@@ -475,20 +458,20 @@ export default {
         detections.forEach((detection) => {
           const box = detection.detection.box;
           const xmode = this.showMode(currnetmode.message)
-          if(xmode =='"angry"'){
-            context.strokeStyle ='red';
-          }else if(xmode =='"disgusted"'){
-            context.strokeStyle ='yellow';
-          } else if(xmode =='"fearful"'){
-            context.strokeStyle ='purple';
-          }else if(xmode =='"happy"'){
-            context.strokeStyle ='green';
-          }else if(xmode =='"sad"'){
-            context.strokeStyle ='blue';
-          }else if(xmode =='"neutral"'){
-            context.strokeStyle ='grey';
-          }else if(xmode =='"surprised"'){
-            context.strokeStyle ='orange';
+          if (xmode == '"angry"') {
+            context.strokeStyle = 'red';
+          } else if (xmode == '"disgusted"') {
+            context.strokeStyle = 'yellow';
+          } else if (xmode == '"fearful"') {
+            context.strokeStyle = 'purple';
+          } else if (xmode == '"happy"') {
+            context.strokeStyle = 'green';
+          } else if (xmode == '"sad"') {
+            context.strokeStyle = 'blue';
+          } else if (xmode == '"neutral"') {
+            context.strokeStyle = 'grey';
+          } else if (xmode == '"surprised"') {
+            context.strokeStyle = 'orange';
           }
           context.lineWidth = 2;
           context.strokeRect(box.x, box.y, box.width, box.height);
@@ -500,7 +483,7 @@ export default {
     },
 
     showInfo() {
-      this.$toast.add({ severity: 'info', summary: 'Info Message', detail:this.message , life: 3000 });
+      this.$toast.add({severity: 'info', summary: 'Info Message', detail: this.message, life: 3000});
     },
     closeVideoPlayer() {
       if (this.player) {
@@ -560,6 +543,7 @@ button {
   font-size: 24px;
 
 }
+
 .video-container {
   position: relative;
 }
@@ -570,12 +554,14 @@ video,
   top: 0;
   left: 0;
 }
+
 .error {
   margin-top: 30px;
   background-color: white;
 
 
 }
+
 .my-div {
 
 }
