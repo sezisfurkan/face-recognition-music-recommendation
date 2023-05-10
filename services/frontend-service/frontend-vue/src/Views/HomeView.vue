@@ -39,7 +39,7 @@
         <div id="player"></div>  <!--    this.videoPlayerOpen =false;-->
         <div>
           <Button icon="pi pi-chevron-left" @click="previousOption"/>
-          <span>{{ selectedOption }}</span>
+          <span>{{ selectedOption.key}}</span>
           <Button icon="pi pi-chevron-right" @click="nextOption"/>
         </div>
       </div>
@@ -87,7 +87,8 @@ export default {
       },
 
       selectedOptionIndex: 0,
-      options: ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'],
+      options: [{ key: 'Option 1', value: '' },  { key: 'Option 2', value: '' },  { key: 'Option 3', value: '' },  { key: 'Option 4', value: '' },  { key: 'Option 5', value: '' }],
+
 
 
       videoId: null,
@@ -120,16 +121,6 @@ export default {
 
   },
 
-
-  computed: {
-    selectedOption() {
-
-
-      return this.options[this.selectedOptionIndex];
-    }
-  },
-
-
   mounted() {
     this.init();
     this.chartData = this.setChartData();
@@ -153,6 +144,20 @@ export default {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
   },
+
+  computed: {
+    selectedOption() {
+      return this.options[this.selectedOptionIndex];
+    }
+  },
+
+  watch: {
+    'selectedOption.key': function() {
+      this.selectedOptionChanged();
+    },
+  },
+
+
   methods: {
 
 
@@ -165,14 +170,29 @@ export default {
       }
 
 
-      const randomIndex = Math.floor(Math.random() * apiKeyList.length);
-      const randomApiKey = apiKeyList[randomIndex];
 
-      this.playVideo(randomApiKey);
+      /*const randomIndex = Math.floor(Math.random() * apiKeyList.length);
+      const randomApiKey = apiKeyList[randomIndex];*/
+
+      const selectedApiKeys = [4];
+      for (let i = 0; i < 5; i++) {
+        const randomIndex = Math.floor(Math.random() * apiKeyList.length);
+        const removedApiKey = apiKeyList.splice(randomIndex, 1)[0];
+        selectedApiKeys.push(removedApiKey);
+        this.options.push({ key: `Option ${i+1}`, value: removedApiKey });
+      }
+      console.log(this.options); // seçilen öğelerin listesi
+
+
+
+/*      console.log(apiKeyList); // kalan öğelerin listesi
+
+      /!*this.playVideo(randomApiKey);*!/*/
     },
-
-
-    previousOption() {
+    selectedOptionChanged() {
+      this.playVideo(this.selectedOption.value)
+    },
+previousOption() {
       this.selectedOptionIndex--;
       if (this.selectedOptionIndex < 0) {
         this.selectedOptionIndex = this.options.length - 1;
@@ -184,6 +204,10 @@ export default {
         this.selectedOptionIndex = 0;
       }
     },
+
+
+
+
 
 
     updateChartData() {
