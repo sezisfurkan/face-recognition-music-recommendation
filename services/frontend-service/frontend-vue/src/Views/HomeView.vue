@@ -157,42 +157,30 @@ export default {
     },
   },
 
-
   methods: {
-
-
     goToPlayList(apiKeyList) {
-      /*   this.$router.push({ name: "home2" ,params: { yData: y } });*/
       console.log(apiKeyList);
       if (apiKeyList.length === 0) {
         console.log("ERROR: apiKeyList is empty");
-        return null; // Boş dizi için null döndür
+        return null;
       }
 
-
-
-      /*const randomIndex = Math.floor(Math.random() * apiKeyList.length);
-      const randomApiKey = apiKeyList[randomIndex];*/
-
-      const selectedApiKeys = [4];
+      const options = [];
       for (let i = 0; i < 5; i++) {
         const randomIndex = Math.floor(Math.random() * apiKeyList.length);
         const removedApiKey = apiKeyList.splice(randomIndex, 1)[0];
-        selectedApiKeys.push(removedApiKey);
-        this.options.push({ key: `Option ${i+1}`, value: removedApiKey });
+        options.push({ key: `Option ${i+1}`, value: removedApiKey });
       }
-      console.log(this.options); // seçilen öğelerin listesi
+      this.options = options;
+      console.log(this.options);
 
-
-
-/*      console.log(apiKeyList); // kalan öğelerin listesi
-
-      /!*this.playVideo(randomApiKey);*!/*/
+      this.selectedOptionIndex = 0;
+      this.playVideo(this.selectedOption.value);
     },
     selectedOptionChanged() {
       this.playVideo(this.selectedOption.value)
     },
-previousOption() {
+    previousOption() {
       this.selectedOptionIndex--;
       if (this.selectedOptionIndex < 0) {
         this.selectedOptionIndex = this.options.length - 1;
@@ -204,12 +192,6 @@ previousOption() {
         this.selectedOptionIndex = 0;
       }
     },
-
-
-
-
-
-
     updateChartData() {
       const newData = {
         labels: Object.keys(this.emotionCounters),
