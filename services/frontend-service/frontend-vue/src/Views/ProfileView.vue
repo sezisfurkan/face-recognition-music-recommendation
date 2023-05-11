@@ -7,6 +7,7 @@
       <p>Email: {{ userListDTO.email }}</p>
     </div>
     <button @click="handleEditProfile">Edit Profile</button>
+    <button icon="pi-sign-out" @click="signOut">Sign out</button>
   </div>
 </template>
 
@@ -42,6 +43,10 @@ export default {
       catch (error) {
         console.error(error);
       }
+    },
+    signOut(){
+      localStorage.clear();
+      this.$router.push('/auth');
     },
     handleEditProfile() {
       this.$router.push('/profile_edit');

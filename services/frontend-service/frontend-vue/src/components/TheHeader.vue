@@ -20,7 +20,9 @@ export default {
     computed: {
 
         isUserLoggedIn() {
-            return this.userStore.userId !== "";
+          /*this.userStore.userId !== "";*/
+          var userId = localStorage.getItem("user");
+          return userId !== null;
         },
         menuItems() {
             const baseItems = [

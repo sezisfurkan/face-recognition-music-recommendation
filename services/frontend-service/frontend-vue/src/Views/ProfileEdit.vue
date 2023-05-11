@@ -22,7 +22,7 @@
       <input v-model="form.email" type="email" required />
     </div>
     <div>
-      <button type="submit" :disabled="loading">
+      <button icon="pi-save" type="submit" :disabled="loading">
         <span v-if="loading">
           <i class="pi pi-spin pi-spinner"></i> Lütfen Beklyiniz...
         </span>
