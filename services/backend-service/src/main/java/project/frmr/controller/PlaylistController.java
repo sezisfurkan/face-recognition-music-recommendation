@@ -7,8 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import project.frmr.dto.EmotionDTO;
 import project.frmr.dto.PlaylistDTO;
+import project.frmr.entity.Playlist;
 
 import java.util.List;
 
@@ -31,5 +33,8 @@ public interface PlaylistController {
 
     @ApiOperation("Update one data")
     public PlaylistDTO update(@RequestBody PlaylistDTO dto, @PathVariable("id") String id);
+
+    @ApiOperation("Find playlist by user id")
+    public List<Playlist> findByUser_Id(@RequestParam String id);
 
 }

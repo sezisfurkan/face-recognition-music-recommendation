@@ -77,4 +77,9 @@ public class PlaylistServiceImpl implements PlaylistService {
         }
         return null;
     }
+
+    @Override
+    public List<Playlist> findByUser_Id(String id) {
+        return playlistRepository.findByUser_Id(id);
+    }
 }
