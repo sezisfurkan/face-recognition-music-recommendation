@@ -207,13 +207,13 @@ export default {
     start() {
       this.toggleDiv();
       this.running = true;
-      this.count = 0;
+      this.count = 10;
       this.intervalId = setInterval(() => {
-        this.count++;
+        this.count--;
         if (currnetmode.message in this.emotionCounters) {
           this.emotionCounters[currnetmode.message]++;
         }
-        if (this.count >= 10) {
+        if (this.count <= 0) {
           this.stop();
           this.closeCamera();
           console.log(this.emotionCounters);
@@ -298,7 +298,7 @@ export default {
       this.toggleDiv();
       this.showPlayListButton = false;
       this.running = false;
-      this.count = 0;
+      this.count = 10;
       this.message = '';
       this.closeCamera();
       this.stopVideo();
@@ -435,7 +435,7 @@ export default {
     resetPage() {
       // Reset all necessary data properties to their default values
       this.running = false;
-      this.count = 0;
+      this.count = 10;
       this.message = '';
       this.showPlayListButton = false;
       this.chartData = this.setChartData();
