@@ -6,5 +6,5 @@ import project.frmr.entity.Playlist;
 import java.util.List;
 
 public interface PlaylistRepository extends JpaRepository<Playlist,String> {
-    List<Playlist> findByUser_Id(String id);
+    /*List<Playlist> findByUser_Id(String id);*/
 }

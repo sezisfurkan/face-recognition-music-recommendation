@@ -156,8 +156,8 @@ public class AppConfig {
             public Playlist asEntity(PlaylistDTO dto) {
                 Playlist playlist = new Playlist();
                 playlist.setId(dto.getId());
-                playlist.setSongs(dto.getSongs());
-                playlist.setUser(dto.getUser());
+                playlist.setApiKey(dto.getApiKey());
+                playlist.setUserId(dto.getUserId());
                 return playlist;
             }
 
@@ -165,8 +165,8 @@ public class AppConfig {
             public PlaylistDTO asDTO(Playlist entity) {
                 PlaylistDTO playlistDTO = new PlaylistDTO();
                 playlistDTO.setId(entity.getId());
-                playlistDTO.setSongs(entity.getSongs());
-                playlistDTO.setUser(entity.getUser());
+                playlistDTO.setApiKey(entity.getApiKey());
+                playlistDTO.setUserId(entity.getUserId());
                 return playlistDTO;
             }
 

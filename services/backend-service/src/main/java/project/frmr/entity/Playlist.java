@@ -23,7 +23,6 @@ public class Playlist extends ModifiableEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name="playlist_id")
     private String id;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +32,8 @@ public class Playlist extends ModifiableEntity {
 
     @Column(nullable = false, length = 100)
     private String userId;
-    @Column(nullable = false, length = 100)
-    private List<String> apiKeys;
+
+
+    @Column(nullable = true)
+    private String apiKey;
 }

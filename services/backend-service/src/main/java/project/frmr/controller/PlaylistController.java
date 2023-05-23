@@ -34,7 +34,7 @@ public interface PlaylistController {
     @ApiOperation("Update one data")
     public PlaylistDTO update(@RequestBody PlaylistDTO dto, @PathVariable("id") String id);
 
-    @ApiOperation("Find playlist by user id")
-    public List<Playlist> findByUser_Id(@RequestParam String id);
+    /*@ApiOperation("Find playlist by user id")
+    public List<Playlist> findByUser_Id(@RequestParam String id);*/
 
 }

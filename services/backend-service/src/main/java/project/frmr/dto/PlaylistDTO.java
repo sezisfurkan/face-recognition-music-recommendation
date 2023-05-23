@@ -14,6 +14,6 @@ public class PlaylistDTO {
 
     private String id;
     private String userId;
-    private List<String> apiKeys;
+    private String apiKey;
 
 }
