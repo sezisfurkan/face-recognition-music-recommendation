@@ -1,30 +1,39 @@
 <template>
-  <div class="menubar">
+  <div class="menubar grid">
     <Toast/>
-    <div style="float: left">
-      <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
-      <Button @click="openCamera">Kamera Aç</Button>
-      <Button @click="closeCamera">Kamera Kapat</Button>
-      <Button @click="start">Sayaci baslat</Button>
-      <Button @click="stop">Durdur her seyi</Button>
-      <Button @click="clearChart">Sayaci sifirla</Button>
+    <div class="mt-4 col" style="float: left">
+
+      <Button @click="openCamera" class="mr-1 ">Open</Button>
+      <Button @click="closeCamera" class="mr-1">Close </Button>
+      <Button @click="start" class="mr-1">Start Timer </Button>
+      <Button @click="stop" class="mr-1">Shutdown</Button>
+      <Button @click="clearChart">Reset Chart</Button>
 
 
-      <div v-if="showPlayListButton"></div>
-      <div v-if="running" class="countdown">{{ count }}</div>
-      <div v-if="!running" class="message">{{ message }}</div>
-      <div v-if="timerStarted">{{ remainingTime }}</div>
-      <div v-if="timerEnded">{{ errorData }}</div>
+      <div v-if="showPlayListButton" ></div>
+
+
       <canvas ref="canvasElement" style="display:none;"></canvas>
-      <div class="video-container">
+      <div class="video-container mt-3 ">
         <video ref="videoElement" autoplay></video>
         <canvas ref="overlayCanvas" class="overlay-canvas"></canvas>
       </div>
 
+ </div>
+
+    <div class="col">
+      <div id="app">
+        <div v-if="running" class="countdown">{{ count }}</div>
+      </div>
+
+      <div id="error-box" class="error">
+        <div class="fish"></div>
+        <div v-if="errorData">{{ errorData}}</div>
+      </div>
 
     </div>
 
-    <div style="float: right">
+    <div style="float: right" class="col">
 
 
       <div v-if="show" class="my-div"></div>
@@ -48,9 +57,7 @@
 
 
 
-      <div id="error-box" class="error">
-        <div v-if="errorData">{{ errorData }}</div>
-      </div>
+
       <div class="card flex justify-content-center">
         <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem"/>
       </div>
@@ -106,7 +113,7 @@ export default {
       player: null,
       stream: null,
       intervalId: null,
-      errorData: null, // Yeni eklenen değişken
+      errorData: null,
       timerStarted: false,
       timerEnded: false,
       remainingTime: 10,
@@ -168,12 +175,6 @@ export default {
   },
 
   methods: {
-    smoothScroll(id) {
-      document.querySelector(id).scrollIntoView({
-        behavior: 'smooth'
-      });
-    },
-
 
     goToPlayList(apiKeyList) {
       console.log(apiKeyList);
@@ -359,7 +360,7 @@ export default {
         this.intervalId = setInterval(this.detectFaces, 1000);
       } catch (error) {
         console.error(error);
-        this.errorData = error.message; // errorData değişkenine hata mesajını aktar
+        this.errorData = error.message;
       }
     },
     clearChart() {
@@ -452,7 +453,7 @@ export default {
           const errorData = await response.json();
           currnetmode = errorData;
           this.showMode(currnetmode.message);
-          this.showError(errorData.message);
+          this.showError(errorData.message.toUpperCase().replace(/['"]+/g, ''));
           return;
         }
         if (response.status === 500) {
@@ -565,4 +566,77 @@ export default {
     font-size: 24px;
 
 }
+
+.countdown {
+  font-size: 48px;
+  text-align: center;
+  animation: countdown-animation 1s linear infinite;
+}
+
+@keyframes countdown-animation {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+.error {
+  width: 300px;
+  padding: 20px;
+  background-color: #0080ff;
+  color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  animation: error-animation 1s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.fish {
+  width: 60px;
+  height: 40px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fish-animation 5s linear infinite;
+  z-index: 1;
+}
+
+@keyframes error-animation {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fish-animation {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 </style>

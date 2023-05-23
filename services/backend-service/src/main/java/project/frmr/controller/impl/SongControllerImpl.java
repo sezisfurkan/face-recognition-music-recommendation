@@ -76,7 +76,9 @@ public class SongControllerImpl implements SongController {
     @Override
     @GetMapping("/emotion/{id}")
     public List<String> getSongApiKeyByEmotionId(@PathVariable("id") String emotionId){
+/*        List<String> title = songService.findSongTitleByEmotionId(emotionId);*/
         List<String> apiKeys = songService.findSongApiKeyByEmotionId(emotionId);
+
         return apiKeys;
     }
 }
