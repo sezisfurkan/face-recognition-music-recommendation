@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import project.frmr.models.ModifiableEntity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,16 +23,16 @@ public class Playlist extends ModifiableEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name="playlist_id")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "playlist_songs",
-            joinColumns = @JoinColumn(name = "playlist_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private Set<Song> songs = new HashSet<>();
+
+    @Column(nullable = false, length = 100)
+    private String userId;
+    @Column(nullable = false, length = 100)
+    private List<String> apiKeys;
 }

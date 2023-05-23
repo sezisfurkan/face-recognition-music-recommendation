@@ -51,4 +51,5 @@ public class User extends ModifiableEntity  {
     @Column(nullable = false, length = 100)
     private String email;
 
+
 }

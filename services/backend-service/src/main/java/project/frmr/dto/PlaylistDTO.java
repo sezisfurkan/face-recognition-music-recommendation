@@ -6,13 +6,14 @@ import project.frmr.entity.Song;
 import project.frmr.entity.User;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
 public class PlaylistDTO {
 
     private String id;
-    private User user;
-    private Set<Song> songs = new HashSet<>();
+    private String userId;
+    private List<String> apiKeys;
 
 }
