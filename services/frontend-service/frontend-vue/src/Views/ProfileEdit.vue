@@ -1,4 +1,5 @@
 <template>
+  <Toast/>
   <h2>Edit Profile</h2>
   <form class="form-container" @submit.prevent="handleSubmit">
     <div>
@@ -87,9 +88,14 @@ export default {
         this.userStore.userName = this.userListDTO.username;
 
         console.log(this.userStore.userId)
-        this.$router.push('/profile');
+
         this.saveToLocalStorage(this.userStore);
+        this.$toast.add({severity: 'success', summary: 'Güncelleme Başarılı', detail: "Kullanıcı bilgileri güncellendi", life: 3000});
+        setTimeout(() => {
+          this.$router.push('/profile')
+        }, 1000)
       } catch (error) {
+        this.$toast.add({severity: 'error', summary: 'Güncelleme Başarısız', detail: "Kullanıcı bilgileri güncellenemedi", life: 3000});
         console.error(error);
       }
        this.loading = false;

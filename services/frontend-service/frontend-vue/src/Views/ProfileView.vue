@@ -1,6 +1,7 @@
 <template>
+  <Toast/>
   <div>
-    <div v-if="userStore.userId">
+    <div>
       <h2>User Information</h2>
       <p>Name: {{ userListDTO.fname }}</p>
       <p>Surname: {{ userListDTO.sname }}</p>
@@ -17,6 +18,9 @@ import {UserListDTO} from "../dtos/UserListDTO.js";
 import axios from "axios";
 
 export default {
+  mounted() {
+    this.loadProfileData();
+  },
   data() {
     return {
       userStore: useUserStore(),
@@ -26,13 +30,13 @@ export default {
     };
   },
   methods: {
-    mounted(){
+    async loadProfileData(){
       const localStorageData = localStorage.getItem("user");
       const parsedLocalStorageData = JSON.parse(localStorageData);
-      this.currentUserId = parsedLocalStorageData.userId;//for API
+      this.currentUserId = parsedLocalStorageData.id;//for API
       this.URL += '/' + this.currentUserId;
       try {
-        const response = axios.get(`${this.URL}`);
+        const response = await axios.get(`${this.URL}`);
         this.userListDTO.id = response.data.id;
         this.userListDTO.name = response.data.name;
         this.userListDTO.username = response.data.username;
@@ -46,7 +50,10 @@ export default {
     },
     signOut(){
       localStorage.clear();
-      this.$router.push('/auth');
+      this.$toast.add({severity: 'success', summary: 'Başarıyla çıkış yapıldı', detail: "Görüşmek üzere", life: 3000});
+      setTimeout(() => {
+        this.$router.push('/auth')
+      }, 1000)
     },
     handleEditProfile() {
       this.$router.push('/profile_edit');
