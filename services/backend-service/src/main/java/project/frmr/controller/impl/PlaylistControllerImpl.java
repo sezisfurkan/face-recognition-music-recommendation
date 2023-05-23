@@ -71,4 +71,10 @@ public class PlaylistControllerImpl implements PlaylistController {
         Playlist playlist = playlistMapper.asEntity(dto);
         return playlistMapper.asDTO(playlistService.update(playlist, id));
     }
+
+    @Override
+    @GetMapping("/getplaylistbyuserid")
+    public List<Playlist> findByUser_Id(@RequestParam String id) {
+        return playlistService.findByUser_Id(id);
+    }
 }
