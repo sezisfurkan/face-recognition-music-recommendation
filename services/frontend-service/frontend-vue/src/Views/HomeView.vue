@@ -265,15 +265,20 @@ export default {
       const y = await axios.get('http://127.0.0.1:8090/api/v1/song/emotion/' + emotionId);
       return y.data;
     },
+    async getTitle (ApiKey){
+      const response = await axios.get('http://127.0.0.1:8090/api/v1/playlist/gettitlebyapikey/' + ApiKey);
+      return response;
+    },
 
 
    addPlayList(){
-     // Seçili option'un bilgilerini al
      const selectedOption = this.selectedOption;
      const apiKey = selectedOption.value;
+     const title =this.getTitle(apiKey);
+
      const songInfoForPlaylist = {
        userId: 'your_user_id',
-       titleOfSong: selectedOption.key,
+       titleOfSong: title,
        apiKey: apiKey
      };
      console.log(songInfoForPlaylist)
