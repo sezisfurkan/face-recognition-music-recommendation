@@ -1,64 +1,70 @@
 <template>
-    <Menubar :model="menuItems">
-        <template #end>
-            <h1 class="text-green-600 text-2xl font-normal m-0 p-0">
-                Vue Js Music recommendation App
-            </h1>
-        </template>
-    </Menubar>
+  <Menubar :model="menuItems">
+    <template #end>
+      <h1 class="text-green-600 text-2xl font-normal m-0 p-0">
+        Vue Js Music recommendation App
+      </h1>
+    </template>
+  </Menubar>
 </template>
 
 <script>
 import {useUserStore} from "../stores/UserStore.js";
 
 export default {
-    data() {
-        return {
-            userStore: useUserStore(),
-        };
+  data() {
+    return {
+      userStore: useUserStore(),
+    };
+  },
+  computed: {
+
+    isUserLoggedIn() {
+      /*this.userStore.userId !== "";*/
+      var userId = localStorage.getItem("user");
+      return userId !== null;
     },
-    computed: {
-
-        isUserLoggedIn() {
-          /*this.userStore.userId !== "";*/
-          var userId = localStorage.getItem("user");
-          return userId !== null;
+    menuItems() {
+      const baseItems = [
+        {
+          label: "Home",
+          icon: "pi pi-home",
+          to: "/",
         },
-        menuItems() {
-            const baseItems = [
-                {
-                    label: "Home",
-                    icon: "pi pi-home",
-                    to: "/",
-                },
-                {
-                    label: this.isUserLoggedIn ? this.userStore.userName : "Profile",
-                    icon: "pi pi-user",
-                    to: "/profile",
-                },
-              {
-                label: "Video",
-                icon: "pi pi-youtube",
-                to: "/homeview2",
-              },
-            ];
-
-            const authItems = [
-                {
-                    label: "Auth",
-                    icon: "pi pi-sign-in",
-                    to: "/auth",
-                },
-                {
-                    label: "Register",
-                    icon: "pi pi-sign-in",
-                    to: "/register",
-                },
-            ];
-
-            return this.isUserLoggedIn ? baseItems : [...baseItems, ...authItems];
+        {
+          label: "Video",
+          icon: "pi pi-youtube",
+          to: "/homeview2",
         },
+        {
+          label: this.isUserLoggedIn ? this.userStore.userName : "Profile",
+          icon: "pi pi-user",
+          to: "/profile",
+        },
+
+      ];
+
+      const authItems = [
+        {
+          label: "Home",
+          icon: "pi pi-home",
+          to: "/",
+        },
+        {
+          label: "Auth",
+          icon: "pi pi-sign-in",
+          to: "/auth",
+        },
+        {
+          label: "Register",
+          icon: "pi pi-sign-in",
+          to: "/register",
+        },
+      ];
+
+      return this.isUserLoggedIn ? baseItems : authItems;
     },
+  },
 };
 </script>
 

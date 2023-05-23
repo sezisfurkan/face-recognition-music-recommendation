@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Toast/>
     <form @submit.prevent="login">
       <label>
         Kullanıcı Adı:
@@ -45,7 +46,7 @@ export default {
           username: this.username,
           password: this.password
         });
-        localStorage.setItem("token", response.data.token); // cevap olarak aldığınız kimlik belirteci local storage'e kaydedi
+        localStorage.setItem("user", JSON.stringify(response.data)); // cevap olarak aldığınız kimlik belirteci local storage'e kaydedi
         setTimeout(() => {
           this.$router.push('/profile')
         }, 1000)
@@ -61,10 +62,13 @@ export default {
         this.userStore.userName = this.userListDTO.username;
 
         console.log(this.userStore.userId)
-        this.$router.push('/profile');
+        this.$toast.add({severity: 'success', summary: 'Giriş Başarılı', detail: "Hoş geldiniz!", life: 3000});
+        setTimeout(() => {
+          this.$router.push('/profile')
+        }, 1000)
       } catch (error) {
         console.error(error);
-        // Başarısız giriş durumunu burada yönetin
+        this.$toast.add({severity: 'error', summary: 'Giriş Başarısız', detail: "Kullanıcı adı veya parola hatalı", life: 3000});
       }
       this.loading = false;
     },
