@@ -4,11 +4,11 @@
 
     <div style="float: left">
       <h1 style="color: #fff;" class="menubar">Kamera Aç/Kapat</h1>
-      <button @click="openCamera">Kamera Aç</button>
-      <button @click="closeCamera">Kamera Kapat</button>
-      <button @click="start">Sayaci baslat</button>
-      <button @click="stop">Durdur her seyi</button>
-      <button @click="clearChart">Sayaci sifirla</button>
+      <Button @click="openCamera">Kamera Aç</Button>
+      <Button @click="closeCamera">Kamera Kapat</Button>
+      <Button @click="start">Sayaci baslat</Button>
+      <Button @click="stop">Durdur her seyi</Button>
+      <Button @click="clearChart">Sayaci sifirla</Button>
 
       <!--      <button @click="closeVideoPlayer">Video penceresini kapat</button>-->
 
@@ -37,12 +37,20 @@
 
 
         <div id="player"></div>  <!--    this.videoPlayerOpen =false;-->
+
         <div>
           <Button icon="pi pi-chevron-left" @click="previousOption"/>
           <span>{{ selectedOption.key}}</span>
           <Button icon="pi pi-chevron-right" @click="nextOption"/>
         </div>
+        <Button @click="addPlayList">Add to Playlist</Button>
+
+
+
+
       </div>
+
+
 
 
       <div id="error-box" class="error">
@@ -85,6 +93,11 @@ export default {
         'sad': 'blue',
         'surprised': 'orange'
       },
+      songInfoForPlaylist:{
+        'userId':'',
+        'titleOfSong': '',
+        'apiKey': '',
+    },
 
       selectedOptionIndex: 0,
       options: [{ key: 'Option 1', value: '' },  { key: 'Option 2', value: '' },  { key: 'Option 3', value: '' },  { key: 'Option 4', value: '' },  { key: 'Option 5', value: '' }],
@@ -166,11 +179,15 @@ export default {
       }
 
       const options = [];
+
+
+
       for (let i = 0; i < 5; i++) {
         const randomIndex = Math.floor(Math.random() * apiKeyList.length);
         const removedApiKey = apiKeyList.splice(randomIndex, 1)[0];
         options.push({ key: `Option ${i+1}`, value: removedApiKey });
       }
+
       this.options = options;
       console.log(this.options);
 
@@ -242,6 +259,19 @@ export default {
     async getApiKey(emotionId) {
       const y = await axios.get('http://127.0.0.1:8090/api/v1/song/emotion/' + emotionId);
       return y.data;
+    },
+
+
+   addPlayList(){
+     // Seçili option'un bilgilerini al
+     const selectedOption = this.selectedOption;
+     const apiKey = selectedOption.value;
+     const songInfoForPlaylist = {
+       userId: 'your_user_id',
+       titleOfSong: selectedOption.key,
+       apiKey: apiKey
+     };
+     console.log(songInfoForPlaylist)
     },
 
     selectMode(x) {
@@ -334,6 +364,7 @@ export default {
       });
       this.updateChartData();
     },
+
     closeCamera() {
       // Kamerayı durdur ve analiz fonksiyonunu iptal et
       clearInterval(this.intervalId);
@@ -432,19 +463,7 @@ export default {
       } catch (error) {
       }
     },
-    resetPage() {
-      // Reset all necessary data properties to their default values
-      this.running = false;
-      this.count = 10;
-      this.message = '';
-      this.showPlayListButton = false;
-      this.chartData = this.setChartData();
-      this.timerStarted = false;
-      this.timerEnded = false;
-      this.remainingTime = 10;
-      this.errorData = null;
-      // Call any other methods you need to reset the page to its initial state
-    },
+
     async analyzeFaces() {
       const overlayCanvas = this.$refs.overlayCanvas;
       const video = this.$refs.videoElement;
