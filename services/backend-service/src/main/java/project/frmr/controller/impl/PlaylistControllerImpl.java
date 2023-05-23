@@ -13,6 +13,7 @@ import project.frmr.entity.Emotion;
 import project.frmr.entity.Playlist;
 import project.frmr.mapper.PlaylistMapper;
 import project.frmr.service.PlaylistService;
+import project.frmr.service.SongService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,9 @@ public class PlaylistControllerImpl implements PlaylistController {
     PlaylistService playlistService;
     @Autowired
     PlaylistMapper playlistMapper;
+
+    @Autowired
+    SongService songService;
 
     @Override
     @PostMapping("/playlist")
@@ -77,4 +81,10 @@ public class PlaylistControllerImpl implements PlaylistController {
     public List<Playlist> findByUser_Id(@RequestParam String id) {
         return playlistService.findByUser_Id(id);
     }*/
+
+    @Override
+    @GetMapping("/gettitlebyapikey")
+    public String findTitleByApiKey(@RequestParam String ApiKey) {
+        return songService.findSongTitleByApiKey(ApiKey);
+    }
 }

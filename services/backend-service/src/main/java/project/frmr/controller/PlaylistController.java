@@ -36,5 +36,7 @@ public interface PlaylistController {
 
     /*@ApiOperation("Find playlist by user id")
     public List<Playlist> findByUser_Id(@RequestParam String id);*/
+    @ApiOperation("Find Title by Song Apikey")
+    public String findTitleByApiKey(String ApiKey);
 
 }

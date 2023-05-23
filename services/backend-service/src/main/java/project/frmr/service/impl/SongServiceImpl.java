@@ -79,4 +79,12 @@ public class SongServiceImpl implements SongService {
 
         return apiKeys;
     }
+
+    @Override
+    public String findSongTitleByApiKey(String ApiKey){
+        String Title = songRepository.findSongTitleByApiKey(ApiKey);
+        return Title;
+    }
+
+
 }
