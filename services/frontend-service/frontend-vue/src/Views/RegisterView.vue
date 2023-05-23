@@ -1,3 +1,4 @@
+<!--
 <template>
   <form class="form-container" @submit.prevent="handleSubmit">
     <div>
@@ -25,6 +26,45 @@
     <button type="submit">Register</button>
   </form>
 </template>
+
+-->
+<template>
+  <Toast/>
+  <div>
+    <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+      <div class="flex flex-column align-items-center justify-content-center">
+        <img src="/demo/images/logo/logo-dark.svg"  class="mb-5 w-6rem flex-shrink-0" />
+        <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
+          <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
+            <div class="text-center mb-5">
+              <img  src="/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3" style="border-radius: 50%;" />
+              <div class="text-900 text-3xl font-medium mb-3">Welcome!</div>
+              <span class="text-600 font-medium">Sign in to continue</span>
+            </div>
+
+              <label class="block text-900 text-xl font-medium mb-2">Name</label>
+              <InputText id="firstname" v-model="form.firstname" type="text" placeholder="First Name" class="w-full md:w-30rem mb-5" style="padding: 1rem" required />
+
+              <label class="block text-900 text-xl font-medium mb-2">Surname</label>
+              <InputText id="surname" v-model="form.surname" type="text" placeholder="Surname" class="w-full md:w-30rem mb-5" style="padding: 1rem" required />
+
+              <label class="block text-900 text-xl font-medium mb-2">Username</label>
+              <InputText id="username" v-model="form.username" type="text" placeholder="Username" class="w-full md:w-30rem mb-5" style="padding: 1rem" required />
+
+              <label class="block text-900 text-xl font-medium mb-2">Password</label>
+              <Password id="password1" v-model="form.password" placeholder="Password" :toggleMask="true" :feedback="false" class="w-full md:w-30rem mb-5" inputClass="w-full" :inputStyle="{ padding: '1rem' }" required />
+
+              <label class="block text-900 text-xl font-medium mb-2">Mail Address</label>
+              <InputText id="email" v-model="form.email" type="email" placeholder="Email" class="w-full md:w-30rem mb-5" style="padding: 1rem" required />
+
+              <Button label="Register" class="w-full p-3 text-xl" @click="handleSubmit()"></Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 
 <script>
 import { reactive } from 'vue';
@@ -93,66 +133,3 @@ export default {
 
 };
 </script>
-<style scoped>
-/* Body styles */
-body {
-  background-color: #333;
-}
-
-/* Form container */
-.form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 2rem;
-  background-color: #222;
-  color: #fff;
-  border-radius: 0.5rem;
-  padding: 2rem;
-}
-
-/* Form label styles */
-.form-container label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-/* Form input styles */
-.form-container input[type="text"],
-.form-container input[type="password"],
-.form-container input[type="email"] {
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 0.25rem;
-  border: none;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #444;
-  color: #fff;
-}
-
-/* Form input focus styles */
-.form-container input[type="text"]:focus,
-.form-container input[type="password"]:focus,
-.form-container input[type="email"]:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #007bff;
-}
-
-/* Form submit button styles */
-.form-container button[type="submit"] {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  cursor: pointer;
-}
-
-/* Form submit button hover styles */
-.form-container button[type="submit"]:hover {
-  background-color: #0069d9;
-}
-</style>
