@@ -158,6 +158,7 @@ public class AppConfig {
                 playlist.setId(dto.getId());
                 playlist.setApiKey(dto.getApiKey());
                 playlist.setUserId(dto.getUserId());
+                playlist.setTitle(dto.getTitle());
                 return playlist;
             }
 
@@ -167,6 +168,7 @@ public class AppConfig {
                 playlistDTO.setId(entity.getId());
                 playlistDTO.setApiKey(entity.getApiKey());
                 playlistDTO.setUserId(entity.getUserId());
+                playlistDTO.setTitle(entity.getTitle());
                 return playlistDTO;
             }
 

@@ -36,4 +36,7 @@ public class Playlist extends ModifiableEntity {
 
     @Column(nullable = true)
     private String apiKey;
+
+    @Column(nullable = true)
+    private String title;
 }

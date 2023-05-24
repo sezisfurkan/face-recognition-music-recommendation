@@ -87,4 +87,12 @@ public class PlaylistControllerImpl implements PlaylistController {
     public String findTitleByApiKey(@PathVariable("ApiKey") String ApiKey) {
         return songService.findSongTitleByApiKey(ApiKey);
     }
+    /*@Override
+    @PostMapping("/playlist/{userId}")
+    public String findUser(@PathVariable("userId") String userId) {
+        return userId;
+    }*/
+
+
+
 }

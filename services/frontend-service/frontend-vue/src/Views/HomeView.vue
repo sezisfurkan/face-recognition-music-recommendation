@@ -273,20 +273,39 @@ export default {
       const selectedOption = this.selectedOption;
       const apiKey = selectedOption.value;
       const titleWithPromise = this.getTitle(apiKey);
+      const localData=localStorage.getItem('user')
+      const username= JSON.parse(localData)
+      if (username.id === null) {
+        console.log('first log in pls')
+        return null;
+      }
+      else {
+        try {
+          const result = await titleWithPromise;
+          const title = result.data;
 
-      try {
-        const result = await titleWithPromise;
-        const title = result.data;
+          axios.post('http://127.0.0.1:8090/api/v1/playlist/playlist', {
+            title: title,
+            userId: username.id,
+            apiKey: apiKey
+          }).then(response => {
+            console.log(response.data);
+          })
+              .catch(error => {
+                console.error(error);
+              });
 
-        const songInfoForPlaylist = {
-          userId: 'your_user_id',
-          titleOfSong: title,
-          apiKey: apiKey
-        };
+          const songInfoForPlaylist = {
+            userId: username.id,
+            titleOfSong: title,
+            apiKey: apiKey
+          };
 
-        console.log(songInfoForPlaylist);
-      }catch (error){
-        console.log(error);
+          console.log(songInfoForPlaylist);
+        } catch (error) {
+          console.log(error);
+        }
+
       }
     },
 
