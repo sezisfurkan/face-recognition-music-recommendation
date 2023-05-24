@@ -5,6 +5,7 @@ import AuthView from "../Views/AuthView.vue";
 import RegisterView from "../Views/RegisterView.vue";
 import HomeViewiki from "../Views/HomeViewiki.vue";
 import ProfileEdit from "../Views/ProfileEdit.vue";
+import PlayList from "../Views/PlayList.vue";
 
 const routes = [
   {
@@ -46,6 +47,13 @@ const routes = [
     name: "profile_edit",
     params:'bos',
     component: ProfileEdit,
+    /* props: (route) => ({ query: route.query }),*/
+  },
+  {
+    path: "/playlist",
+    name: "playlist",
+    params:'bos',
+    component: PlayList,
     /* props: (route) => ({ query: route.query }),*/
   },
 

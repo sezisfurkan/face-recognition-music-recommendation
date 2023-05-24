@@ -268,9 +268,9 @@ export default {
       return response;
     },
 
-    async getUserPlaylist(){
-
-
+    async getUserPlaylist(userId){
+      const response = await axios.get('http://127.0.0.1:8090/api/v1/playlist/getplaylist/' + userId);
+      console.log(response.data);
     },
 
     async addPlayList() {
@@ -279,6 +279,7 @@ export default {
       const titleWithPromise = this.getTitle(apiKey);
       const localData=localStorage.getItem('user')
       const username= JSON.parse(localData)
+      this.getUserPlaylist(username.id)
       if (username.id === null) {
         console.log('first log in pls')
         return null;
@@ -432,6 +433,7 @@ export default {
     showMode(mode) {
       return JSON.stringify(mode);
     },
+
     onPlayerReady(event) {
       event.target.playVideo();
     },
@@ -458,6 +460,8 @@ export default {
       // Videoyu oynat
       this.player.playVideo();
     },
+
+
     stopVideo() {
 
       if (this.player) {
