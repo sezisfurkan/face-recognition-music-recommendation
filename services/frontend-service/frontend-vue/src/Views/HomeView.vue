@@ -268,6 +268,10 @@ export default {
       return response;
     },
 
+    async getUserPlaylist(){
+
+
+    },
 
     async addPlayList() {
       const selectedOption = this.selectedOption;
