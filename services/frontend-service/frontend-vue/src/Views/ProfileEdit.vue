@@ -1,29 +1,30 @@
+
 <template>
   <Toast/>
-  <h2>Edit Profile</h2>
+  <h2 class="edit-profile-title">Edit Profile</h2>
   <form class="form-container" @submit.prevent="handleSubmit">
-    <div>
-      <label>Name:</label>
-      <input v-model="form.firstname" type="text" required />
+    <div class="form-group">
+      <label class="form-label">Name:</label>
+      <input v-model="form.firstname" type="text" required class="form-input" />
     </div>
-    <div>
-      <label>Surname:</label>
-      <input v-model="form.surname" type="text" required />
+    <div class="form-group">
+      <label class="form-label">Surname:</label>
+      <input v-model="form.surname" type="text" required class="form-input" />
     </div>
-    <div>
-      <label>UserName:</label>
-      <input v-model="form.username" type="text" required />
+    <div class="form-group">
+      <label class="form-label">UserName:</label>
+      <input v-model="form.username" type="text" required class="form-input" />
     </div>
-    <div>
-      <label>Password :</label>
-      <input v-model="form.password" type="password" required />
+    <div class="form-group">
+      <label class="form-label">Password :</label>
+      <input v-model="form.password" type="password" required class="form-input" />
     </div>
-    <div>
-      <label>Mail Adress:</label>
-      <input v-model="form.email" type="email" required />
+    <div class="form-group">
+      <label class="form-label">Mail Adress:</label>
+      <input v-model="form.email" type="email" required class="form-input" />
     </div>
-    <div>
-      <button icon="pi-save" type="submit" :disabled="loading">
+    <div class="form-group">
+      <button icon="pi-save" type="submit" :disabled="loading" class="form-submit-button">
         <span v-if="loading">
           <i class="pi pi-spin pi-spinner"></i> Lütfen Beklyiniz...
         </span>
@@ -105,3 +106,44 @@ export default {
   }
 };
 </script>
+
+<style>
+.edit-profile-title {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300px;
+}
+
+.form-submit-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+}
+</style>
