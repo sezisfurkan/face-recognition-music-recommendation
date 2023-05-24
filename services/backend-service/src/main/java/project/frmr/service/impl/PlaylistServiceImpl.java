@@ -14,6 +14,8 @@ import project.frmr.repository.EmotionRepository;
 import project.frmr.repository.PlaylistRepository;
 import project.frmr.service.PlaylistService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Autowired
     public void setPlaylistMapper(PlaylistMapper playlistMapper) {
-       this.playlistMapper = playlistMapper;
+        this.playlistMapper = playlistMapper;
     }
 
     @Autowired
@@ -82,4 +84,11 @@ public class PlaylistServiceImpl implements PlaylistService {
     public List<Playlist> findByUser_Id(String id) {
         return playlistRepository.findByUser_Id(id);
     }*/
+
+    @Override
+    public List<String> findTitleAndApiKeyByUserID(String UserId) {
+        List<String> list = playlistRepository.findTitleAndApiKeyByUserId(UserId);
+
+        return list;
+    }
 }

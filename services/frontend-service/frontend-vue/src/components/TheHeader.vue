@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       userStore: useUserStore(),
+      username:""
     };
   },
   computed: {
@@ -25,6 +26,9 @@ export default {
       return userId !== null;
     },
     menuItems() {
+      const localStorageData = localStorage.getItem("user");
+      const parsedLocalStorageData = JSON.parse(localStorageData);
+      parsedLocalStorageData?this.username = parsedLocalStorageData.username:this.username = "";
       const baseItems = [
         {
           label: "Home",
@@ -37,7 +41,7 @@ export default {
           to: "/homeview2",
         },
         {
-          label: this.isUserLoggedIn ? this.userStore.userName : "Profile",
+          label: this.isUserLoggedIn ? this.username: "Profile",
           icon: "pi pi-user",
           to: "/profile",
         },

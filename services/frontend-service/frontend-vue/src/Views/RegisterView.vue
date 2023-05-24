@@ -89,13 +89,13 @@ export default {
     };
   },
   methods: {
-      saveToLocalStorage(userStore) {
+      /*saveToLocalStorage(userStore) {
           const userData = {
               userId: userStore.userId,
               userName: userStore.userName,
           };
           localStorage.setItem("user", JSON.stringify(userData));
-      },
+      },*/
     async handleSubmit() {
       const userData = {
         firstname: this.form.firstname,
@@ -115,6 +115,7 @@ export default {
       try {
         const response = await axios.post(`${this.URL}`, this.userListDTO);
         console.log(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
           this.userListDTO.id = response.data.id;
           this.userListDTO.name = response.data.name;
 
@@ -122,9 +123,13 @@ export default {
           this.userStore.userName = this.userListDTO.username;
 
         console.log(this.userStore.userId)
-        this.$router.push('/profile');
-          this.saveToLocalStorage(this.userStore);
+        this.$toast.add({severity: 'success', summary: 'Register Successful', detail: "Logged In", life: 3000});
+        setTimeout(() => {
+          this.$router.push('/profile')
+        }, 1000)
+          /*this.saveToLocalStorage(this.userStore);*/
       } catch (error) {
+        this.$toast.add({severity: 'error', summary: 'Register Failed', detail: "password is not enough", life: 3000});
         console.error(error);
       }
 

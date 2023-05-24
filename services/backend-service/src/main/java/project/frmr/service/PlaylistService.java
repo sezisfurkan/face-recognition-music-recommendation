@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PlaylistService extends GenericService<Playlist,String>{
     /*List<Playlist> findByUser_Id(String id);*/
+
+    List<String> findTitleAndApiKeyByUserID(String UserId);
 }

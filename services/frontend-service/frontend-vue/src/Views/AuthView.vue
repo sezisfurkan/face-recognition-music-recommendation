@@ -71,13 +71,13 @@ export default {
         this.userStore.userName = this.userListDTO.username;
 
         console.log(this.userStore.userId)
-        this.$toast.add({severity: 'success', summary: 'Giriş Başarılı', detail: "Hoş geldiniz!", life: 3000});
+        this.$toast.add({severity: 'success', summary: 'Login Succesful', detail: "Welcome!", life: 3000});
         setTimeout(() => {
           this.$router.push('/profile')
         }, 1000)
       } catch (error) {
         console.error(error);
-        this.$toast.add({severity: 'error', summary: 'Giriş Başarısız', detail: "Kullanıcı adı veya parola hatalı", life: 3000});
+        this.$toast.add({severity: 'error', summary: 'Login Failed', detail: "username or password wrong", life: 3000});
       }
       this.loading = false;
     },

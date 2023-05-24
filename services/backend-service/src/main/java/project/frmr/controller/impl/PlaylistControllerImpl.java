@@ -93,6 +93,12 @@ public class PlaylistControllerImpl implements PlaylistController {
         return userId;
     }*/
 
+    @Override
+    @GetMapping("/getplaylist/{UserId}")
+    public List<String>findTitleAndApiKeyByUserId(@PathVariable("UserId")String UserId){
+        return playlistService.findTitleAndApiKeyByUserID(UserId);
+    }
+
 
 
 }
