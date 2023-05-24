@@ -182,11 +182,7 @@ export default {
         console.log("ERROR: apiKeyList is empty");
         return null;
       }
-
       const options = [];
-
-
-
       for (let i = 0; i < 5; i++) {
         const randomIndex = Math.floor(Math.random() * apiKeyList.length);
         const removedApiKey = apiKeyList.splice(randomIndex, 1)[0];
@@ -250,6 +246,8 @@ export default {
             const api = this.getApiKey(result)
             api.then(result => {
               this.goToPlayList(result);
+
+
               console.log(result);
             });
             this.message = highestEmotion[0] + " mode songs playing";
@@ -271,18 +269,27 @@ export default {
     },
 
 
-   addPlayList(){
-     const selectedOption = this.selectedOption;
-     const apiKey = selectedOption.value;
-     const title =this.getTitle(apiKey);
+    async addPlayList() {
+      const selectedOption = this.selectedOption;
+      const apiKey = selectedOption.value;
+      const titleWithPromise = this.getTitle(apiKey);
 
-     const songInfoForPlaylist = {
-       userId: 'your_user_id',
-       titleOfSong: title,
-       apiKey: apiKey
-     };
-     console.log(songInfoForPlaylist)
+      try {
+        const result = await titleWithPromise;
+        const title = result.data;
+
+        const songInfoForPlaylist = {
+          userId: 'your_user_id',
+          titleOfSong: title,
+          apiKey: apiKey
+        };
+
+        console.log(songInfoForPlaylist);
+      }catch (error){
+        console.log(error);
+      }
     },
+
 
     selectMode(x) {
       if (x == 'angry') {

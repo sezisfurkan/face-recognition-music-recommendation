@@ -83,8 +83,8 @@ public class PlaylistControllerImpl implements PlaylistController {
     }*/
 
     @Override
-    @GetMapping("/gettitlebyapikey")
-    public String findTitleByApiKey(@RequestParam String ApiKey) {
+    @GetMapping("/gettitlebyapikey/{ApiKey}")
+    public String findTitleByApiKey(@PathVariable("ApiKey") String ApiKey) {
         return songService.findSongTitleByApiKey(ApiKey);
     }
 }
