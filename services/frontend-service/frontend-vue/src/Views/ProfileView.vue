@@ -8,6 +8,7 @@
       <p>Email: {{ userListDTO.email }}</p>
     </div>
     <button @click="handleEditProfile">Edit Profile</button>
+    <button @click="goToPlaylist">Go To Playlist</button>
     <button icon="pi-sign-out" @click="signOut">Sign out</button>
   </div>
 </template>
@@ -58,6 +59,10 @@ export default {
     handleEditProfile() {
       this.$router.push('/profile_edit');
       console.log("Edit Profile button clicked");
+    },
+    goToPlaylist() {
+      this.$router.push('/playlist');
+      console.log("playlist button clicked");
     }
   }
 };
