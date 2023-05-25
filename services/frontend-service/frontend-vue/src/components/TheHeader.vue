@@ -36,11 +36,6 @@ export default {
           to: "/",
         },
         {
-          label: "Video",
-          icon: "pi pi-youtube",
-          to: "/homeview2",
-        },
-        {
           label: this.isUserLoggedIn ? this.username: "Profile",
           icon: "pi pi-user",
           to: "/profile",
@@ -49,11 +44,6 @@ export default {
       ];
 
       const authItems = [
-        {
-          label: "Home",
-          icon: "pi pi-home",
-          to: "/",
-        },
         {
           label: "Auth",
           icon: "pi pi-sign-in",

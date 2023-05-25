@@ -75,8 +75,8 @@ export default {
         this.userListDTO.email = userData.email;
         this.userListDTO.password = userData.password;
         this.userListDTO.name = userData.firstname + " " + userData.surname;
-        this.userListDTO.id = parsedLocalStorageData.userId;
-        this.currentUserId = parsedLocalStorageData.userId;//for API
+        this.userListDTO.id = parsedLocalStorageData.id;
+        this.currentUserId = parsedLocalStorageData.id;//for API
       }
        this.URL += '/' + this.currentUserId
       try {
@@ -89,8 +89,10 @@ export default {
         this.userStore.userName = this.userListDTO.username;
 
         console.log(this.userStore.userId)
+        localStorage.clear();
+        localStorage.setItem("user", JSON.stringify(response.data));
 
-        this.saveToLocalStorage(this.userStore);
+        //this.saveToLocalStorage(this.userStore);
         this.$toast.add({severity: 'success', summary: 'Güncelleme Başarılı', detail: "Kullanıcı bilgileri güncellendi", life: 3000});
         setTimeout(() => {
           this.$router.push('/profile')
