@@ -20,7 +20,7 @@
               <Password id="password1" v-model="password" placeholder="Password" :toggleMask="true" :feedback="false" class="w-full mb-3" inputClass="w-full" :inputStyle="{ padding: '1rem' }"></Password>
 
 
-              <Button label="Sign In" class="w-full p-3 text-xl" @click="login"></Button>
+              <Button label="Sign In" class="w-full p-3 text-xl" :loading="loading" @click="login"></Button>
             </div>
           </div>
         </div>
@@ -37,6 +37,7 @@ import {UserListDTO} from "../dtos/UserListDTO.js";
 export default {
   data() {
     return {
+
       username: "",
       password: "",
       URL: 'http://localhost:8090/api/v1/user/login',
@@ -47,6 +48,7 @@ export default {
 
   },
   methods: {
+
     async login() {
       this.loading = true;
 

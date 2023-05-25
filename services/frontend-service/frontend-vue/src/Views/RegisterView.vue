@@ -57,7 +57,7 @@
               <label class="block text-900 text-xl font-medium mb-2">Mail Address</label>
               <InputText id="email" v-model="form.email" type="email" placeholder="Email" class="w-full md:w-30rem mb-5" style="padding: 1rem" required />
 
-              <Button label="Register" class="w-full p-3 text-xl" @click="handleSubmit()"></Button>
+              <Button label="Register" class="w-full p-3 text-xl" :loading="loading" @click="handleSubmit()"></Button>
           </div>
         </div>
       </div>
@@ -76,6 +76,7 @@ import {useUserStore} from "../stores/UserStore.js";
 export default {
   data() {
     return {
+      loading:false,
       form: {
         firstname: '',
         surname: '',
@@ -111,7 +112,7 @@ export default {
       this.userListDTO.email = userData.email;
       this.userListDTO.password = userData.password;
       this.userListDTO.name = userData.firstname + " " + userData.surname;
-
+      this.loading=true;
       try {
         const response = await axios.post(`${this.URL}`, this.userListDTO);
         console.log(response.data);
@@ -121,6 +122,7 @@ export default {
 
           this.userStore.userId = this.userListDTO.id;
           this.userStore.userName = this.userListDTO.username;
+
 
         console.log(this.userStore.userId)
         this.$toast.add({severity: 'success', summary: 'Register Successful', detail: "Logged In", life: 3000});
