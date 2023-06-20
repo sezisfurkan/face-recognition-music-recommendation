@@ -87,7 +87,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .music-player {
   text-align: center;
   margin-top: 20px;
